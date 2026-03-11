@@ -143,30 +143,76 @@ export function SketchChart({ className = '' }: { className?: string }) {
   )
 }
 
-// Neural network illustration for Hero
+// Neural network illustration for Hero — animated with live signal pulses
 export function SketchNetwork({ className = '' }: { className?: string }) {
-  // Layer x positions
-  const layerX = [100, 250, 400]
-  // Node y positions per layer
-  const layers = [
-    [80, 160, 240, 320, 400],  // input: 5 nodes
-    [120, 200, 280, 360],      // hidden: 4 nodes
-    [160, 240, 320],           // output: 3 nodes
+  const layerX = [85, 250, 415]
+  const nodeLayers = [
+    [60, 145, 230, 315, 400],  // input:  5 nodes
+    [103, 198, 293, 388],      // hidden: 4 nodes
+    [148, 243, 338],           // output: 3 nodes
   ]
-  // Accent highlights: mark a few output nodes
-  const accentNodes: [number, number][] = [[2, 0], [2, 1], [2, 2]]
 
-  // Build all edges
-  const edges: { d: string; custom: number }[] = []
-  let edgeIdx = 0
-  for (let l = 0; l < layers.length - 1; l++) {
-    for (const y1 of layers[l]) {
-      for (const y2 of layers[l + 1]) {
-        edges.push({ d: `M${layerX[l]},${y1} L${layerX[l + 1]},${y2}`, custom: edgeIdx * 0.04 })
-        edgeIdx++
+  // Build all background edges (dim, all-to-all)
+  const edges: { d: string; idx: number }[] = []
+  let eIdx = 0
+  for (let l = 0; l < 2; l++) {
+    for (const y1 of nodeLayers[l]) {
+      for (const y2 of nodeLayers[l + 1]) {
+        edges.push({ d: `M${layerX[l]},${y1} L${layerX[l + 1]},${y2}`, idx: eIdx++ })
       }
     }
   }
+
+  // Highlighted "active" routes — signals travel along these
+  const routes = [
+    { sx: 85, sy: 60,  mx: 250, my: 103, ex: 415, ey: 148, delay: 2.2, rDelay: 3.8 },
+    { sx: 85, sy: 230, mx: 250, my: 198, ex: 415, ey: 243, delay: 2.9, rDelay: 4.2 },
+    { sx: 85, sy: 400, mx: 250, my: 388, ex: 415, ey: 338, delay: 3.6, rDelay: 3.8 },
+    { sx: 85, sy: 145, mx: 250, my: 293, ex: 415, ey: 148, delay: 4.4, rDelay: 5.0 },
+    { sx: 85, sy: 315, mx: 250, my: 103, ex: 415, ey: 338, delay: 5.2, rDelay: 5.0 },
+  ]
+
+  // Local dim-draw variant — visible state targets opacity 0.13, not 1
+  const dimDraw = {
+    hidden: { pathLength: 0, opacity: 0 },
+    visible: (i: number) => ({
+      pathLength: 1,
+      opacity: 0.13,
+      transition: {
+        pathLength: { delay: i * 0.018, type: 'spring', duration: 1.0, bounce: 0 },
+        opacity: { delay: i * 0.018, duration: 0.01 },
+      },
+    }),
+  }
+
+  // Active-edge draw variant — gold, more visible
+  const activeDraw = {
+    hidden: { pathLength: 0, opacity: 0 },
+    visible: (i: number) => ({
+      pathLength: 1,
+      opacity: 0.5,
+      transition: {
+        pathLength: { delay: 0.7 + i * 0.12, type: 'spring', duration: 1.0, bounce: 0 },
+        opacity: { delay: 0.7 + i * 0.12, duration: 0.25 },
+      },
+    }),
+  }
+
+  // Node scale-in via spring bounce
+  const nodeIn = (delay: number) => ({
+    hidden: { scale: 0, opacity: 0 },
+    visible: {
+      scale: 1,
+      opacity: 1,
+      transition: { delay, type: 'spring' as const, stiffness: 300, damping: 11 },
+    },
+  })
+
+  // Dot fade-in
+  const dotIn = (delay: number) => ({
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { delay, duration: 0.35 } },
+  })
 
   return (
     <motion.svg
@@ -176,107 +222,182 @@ export function SketchNetwork({ className = '' }: { className?: string }) {
       whileInView="visible"
       viewport={{ once: true, amount: 0.2 }}
       role="img"
-      aria-label="Neural network — layers of interconnected nodes representing beehoop's analytical approach"
+      aria-label="Neural network — layers of interconnected nodes representing analytical intelligence"
     >
-      {/* Edges */}
-      {edges.map((e, i) => (
+      <defs>
+        {/* Soft glow for signals */}
+        <filter id="nn-glow" x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="3.5" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+        {/* Subtle glow for output halos */}
+        <filter id="node-halo" x="-80%" y="-80%" width="260%" height="260%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="5" />
+        </filter>
+      </defs>
+
+      {/* ── Dim background edges ── */}
+      {edges.map(e => (
         <motion.path
-          key={i}
+          key={`bg-${e.idx}`}
           d={e.d}
-          fill="none"
           stroke="#0A0A0A"
-          strokeWidth="0.8"
-          opacity={0.18}
-          custom={e.custom}
-          variants={draw}
+          strokeWidth="0.7"
+          fill="none"
+          custom={e.idx}
+          variants={dimDraw}
         />
       ))}
 
-      {/* Layer labels */}
-      {[
-        { x: layerX[0], label: 'Input' },
-        { x: layerX[1], label: 'Hidden' },
-        { x: layerX[2], label: 'Output' },
-      ].map(({ x, label }) => (
-        <motion.text
-          key={label}
-          x={x}
-          y={440}
-          textAnchor="middle"
-          fontSize="11"
-          fontFamily="sans-serif"
-          fill="#0A0A0A"
-          opacity={0.35}
-          custom={3}
-          variants={fillIn}
-        >
-          {label}
-        </motion.text>
+      {/* ── Highlighted active pathways (gold) ── */}
+      {routes.map((r, i) => (
+        <g key={`route-${i}`}>
+          <motion.path
+            d={`M${r.sx},${r.sy} L${r.mx},${r.my}`}
+            stroke="#C8920A"
+            strokeWidth="1.4"
+            fill="none"
+            custom={i}
+            variants={activeDraw}
+          />
+          <motion.path
+            d={`M${r.mx},${r.my} L${r.ex},${r.ey}`}
+            stroke="#C8920A"
+            strokeWidth="1.4"
+            fill="none"
+            custom={i + 0.5}
+            variants={activeDraw}
+          />
+        </g>
       ))}
 
-      {/* Nodes */}
-      {layers.map((ys, li) =>
+      {/* ── Nodes ── */}
+      {nodeLayers.map((ys, li) =>
         ys.map((y, ni) => {
-          const isAccent = accentNodes.some(([al, an]) => al === li && an === ni)
-          const custom = li * 1.2 + ni * 0.25 + 1
+          const cx = layerX[li]
+          const r = [11, 13, 15][li]
+          const isOutput = li === 2
+          const isHidden = li === 1
+          const entranceDelay = [0.45, 0.9, 1.35][li] + ni * 0.08
+
           return (
-            <g key={`${li}-${ni}`}>
-              {/* Filled background */}
+            <g key={`node-${li}-${ni}`}>
+              {/* Gold halo behind output nodes — blurred glow */}
+              {isOutput && (
+                <motion.circle
+                  cx={cx} cy={y} r={r + 10}
+                  fill="#F5C842"
+                  variants={dotIn(entranceDelay + 0.1)}
+                  style={{ filter: 'url(#node-halo)', opacity: 0.55 }}
+                />
+              )}
+
+              {/* Main filled circle */}
               <motion.circle
-                cx={layerX[li]}
-                cy={y}
-                r={li === 2 ? 14 : 12}
-                fill={isAccent ? '#F5C842' : '#fff'}
-                stroke="none"
-                custom={custom}
-                variants={fillIn}
-              />
-              {/* Stroke circle */}
-              <motion.circle
-                cx={layerX[li]}
-                cy={y}
-                r={li === 2 ? 14 : 12}
-                fill="none"
+                cx={cx} cy={y} r={r}
+                fill={isOutput ? '#F5C842' : '#FFFFFF'}
                 stroke="#0A0A0A"
                 strokeWidth="1.5"
-                custom={custom}
-                variants={draw}
+                variants={nodeIn(entranceDelay)}
+                style={{ transformOrigin: `${cx}px ${y}px` }}
               />
-              {/* Accent ring on output nodes */}
-              {isAccent && (
+
+              {/* Inner accent dot */}
+              {(isHidden || isOutput) && (
                 <motion.circle
-                  cx={layerX[li]}
-                  cy={y}
-                  r={22}
-                  fill="none"
-                  stroke="#C8920A"
-                  strokeWidth="0.8"
-                  opacity={0.5}
-                  custom={custom + 0.3}
-                  variants={draw}
+                  cx={cx} cy={y} r={isOutput ? 4 : 3}
+                  fill={isOutput ? '#0A0A0A' : '#C8920A'}
+                  variants={dotIn(entranceDelay + 0.25)}
                 />
+              )}
+
+              {/* Expanding pulse rings on output nodes — looping */}
+              {isOutput && (
+                <>
+                  <motion.circle
+                    cx={cx} cy={y} r={r}
+                    fill="none"
+                    stroke="#C8920A"
+                    strokeWidth="1.5"
+                    animate={{ scale: [1, 2.6], opacity: [0.75, 0] }}
+                    transition={{
+                      duration: 1.8,
+                      delay: 2.6 + ni * 0.55,
+                      repeat: Infinity,
+                      repeatDelay: 2.4,
+                      ease: 'easeOut',
+                    }}
+                    style={{ transformOrigin: `${cx}px ${y}px` }}
+                  />
+                  <motion.circle
+                    cx={cx} cy={y} r={r}
+                    fill="none"
+                    stroke="#F5C842"
+                    strokeWidth="0.8"
+                    animate={{ scale: [1, 3.4], opacity: [0.4, 0] }}
+                    transition={{
+                      duration: 2.2,
+                      delay: 3.1 + ni * 0.55,
+                      repeat: Infinity,
+                      repeatDelay: 2.4,
+                      ease: 'easeOut',
+                    }}
+                    style={{ transformOrigin: `${cx}px ${y}px` }}
+                  />
+                </>
               )}
             </g>
           )
         })
       )}
 
-      {/* Pulse dots on edges (decorative) */}
-      {[
-        { cx: 175, cy: 120 },
-        { cx: 175, cy: 280 },
-        { cx: 325, cy: 200 },
-        { cx: 325, cy: 320 },
-      ].map(({ cx, cy }, i) => (
+      {/* ── Traveling signal dots ── */}
+      {routes.map((r, i) => (
         <motion.circle
-          key={`pulse-${i}`}
-          cx={cx}
-          cy={cy}
-          r="3"
-          fill="#C8920A"
-          custom={i * 0.3 + 3.5}
-          variants={fillIn}
+          key={`sig-${i}`}
+          r={4.5}
+          fill="#F5C842"
+          stroke="#C8920A"
+          strokeWidth="1"
+          style={{ filter: 'url(#nn-glow)' }}
+          initial={{ opacity: 0, cx: r.sx, cy: r.sy }}
+          animate={{
+            cx: [r.sx, r.mx, r.ex],
+            cy: [r.sy, r.my, r.ey],
+            opacity: [0, 1, 1, 0],
+          }}
+          transition={{
+            duration: 1.35,
+            delay: r.delay,
+            repeat: Infinity,
+            repeatDelay: r.rDelay,
+            ease: 'easeInOut',
+            times: [0, 0.38, 0.78, 1],
+          }}
         />
+      ))}
+
+      {/* ── Layer labels ── */}
+      {[
+        { label: 'Input',  x: 85 },
+        { label: 'Hidden', x: 250 },
+        { label: 'Output', x: 415 },
+      ].map(({ label, x }) => (
+        <motion.text
+          key={label}
+          x={x} y={432}
+          textAnchor="middle"
+          fontSize="11"
+          fontFamily="sans-serif"
+          fill="#0A0A0A"
+          custom={7}
+          variants={fillIn}
+        >
+          {label}
+        </motion.text>
       ))}
     </motion.svg>
   )
