@@ -56,8 +56,7 @@ export default function Contact() {
               differently?
             </h2>
             <p className="font-sans text-base text-gray-400 mt-6 max-w-md leading-relaxed">
-              We partner with a select number of clients at any one time. If your
-              timing is right, we&apos;d like to hear from you.
+              Every great outcome starts with a conversation. Share your story with us — where you are, where you want to be, and what&apos;s standing in the way. We&apos;ll bring the thinking, the rigour, and the commitment to help you get there.
             </p>
 
             <div className="mt-10 space-y-4">
