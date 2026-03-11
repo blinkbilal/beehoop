@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import { useAnimationFrame } from 'framer-motion'
 import Lenis from '@studio-freight/lenis'
 
 export default function SmoothScroll({
@@ -11,18 +12,15 @@ export default function SmoothScroll({
   const lenisRef = useRef<Lenis | null>(null)
 
   useEffect(() => {
+    // Skip Lenis on mobile for better performance
+    if (typeof window !== 'undefined' && window.innerWidth < 768) return
+
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
     })
     lenisRef.current = lenis
-
-    function raf(time: number) {
-      lenis.raf(time)
-      requestAnimationFrame(raf)
-    }
-    requestAnimationFrame(raf)
 
     // Support anchor clicks with smooth scroll
     const handleClick = (e: MouseEvent) => {
@@ -43,9 +41,15 @@ export default function SmoothScroll({
 
     return () => {
       lenis.destroy()
+      lenisRef.current = null
       document.removeEventListener('click', handleClick)
     }
   }, [])
+
+  // Use Framer Motion's RAF to avoid competing loops
+  useAnimationFrame((time) => {
+    lenisRef.current?.raf(time)
+  })
 
   return <>{children}</>
 }

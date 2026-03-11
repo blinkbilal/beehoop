@@ -3,6 +3,7 @@
 import { ArrowLeft, ArrowRight, CheckCircle2, Compass, GitMerge, Palette, BarChart2 } from 'lucide-react'
 import Link from 'next/link'
 import AnimatedSection from '@/components/ui/AnimatedSection'
+import { SketchCompass, SketchMerge, SketchBrush, SketchChart } from '@/components/ui/SketchIllustrations'
 import Contact from '@/components/sections/Contact'
 
 const iconMap = {
@@ -11,6 +12,13 @@ const iconMap = {
   Palette,
   BarChart2,
 } as const
+
+const sketchMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  Compass: SketchCompass,
+  GitMerge: SketchMerge,
+  Palette: SketchBrush,
+  BarChart2: SketchChart,
+}
 
 interface ServiceDetailProps {
   service: {
@@ -30,7 +38,7 @@ interface ServiceDetailProps {
 }
 
 export default function ServiceDetailPage({ service, relatedCases }: ServiceDetailProps) {
-  const IconComponent = iconMap[service.icon]
+  const SketchIcon = sketchMap[service.icon]
 
   return (
     <>
@@ -43,8 +51,8 @@ export default function ServiceDetailPage({ service, relatedCases }: ServiceDeta
               All services
             </Link>
 
-            <div className="w-16 h-16 rounded-xl bg-accent-pale flex items-center justify-center mb-6">
-              <IconComponent className="w-7 h-7 text-accent" />
+            <div className="w-24 h-24 mb-6">
+              {SketchIcon && <SketchIcon className="w-24 h-24" />}
             </div>
 
             <h1 className="font-syne text-3xl md:text-4xl lg:text-5xl font-bold text-text-primary tracking-heading leading-[1.1]">
@@ -124,6 +132,29 @@ export default function ServiceDetailPage({ service, relatedCases }: ServiceDeta
           </div>
         </section>
       )}
+
+      {/* CTA Banner */}
+      <section className="py-16 bg-background">
+        <div className="max-w-4xl mx-auto px-6 md:px-10 lg:px-20">
+          <AnimatedSection>
+            <div className="bg-accent-pale rounded-2xl p-8 md:p-12 text-center">
+              <h3 className="font-syne text-xl md:text-2xl font-bold text-text-primary tracking-heading">
+                Ready to get started?
+              </h3>
+              <p className="font-sans text-sm text-text-secondary mt-3 max-w-md mx-auto leading-relaxed">
+                Let&apos;s discuss how our {service.title.toLowerCase()} expertise can help your organisation achieve its goals.
+              </p>
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-2 mt-6 bg-accent-light text-text-primary font-sans font-semibold px-8 py-4 rounded-full hover:bg-accent-hover hover:scale-[1.02] hover:shadow-lg transition-all duration-300 text-sm"
+              >
+                Start a conversation
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </AnimatedSection>
+        </div>
+      </section>
 
       <Contact />
     </>

@@ -1,7 +1,13 @@
 'use client'
 
+import { motion } from 'framer-motion'
 import AnimatedSection from '@/components/ui/AnimatedSection'
 import { processSteps } from '@/lib/data'
+
+const lineDraw = {
+  hidden: { pathLength: 0 },
+  visible: { pathLength: 1, transition: { duration: 2, ease: 'easeInOut' } },
+}
 
 export default function Process() {
   return (
@@ -11,7 +17,7 @@ export default function Process() {
           <p className="text-xs font-sans font-semibold uppercase tracking-label text-accent mb-4">
             Our Approach
           </p>
-          <h2 className="font-syne text-2xl md:text-lg font-bold text-text-primary tracking-heading">
+          <h2 className="font-syne text-lg md:text-xl font-bold text-text-primary tracking-heading">
             How we work
           </h2>
           <p className="font-sans text-base text-text-secondary mt-3 max-w-lg leading-relaxed">
@@ -20,8 +26,26 @@ export default function Process() {
         </AnimatedSection>
 
         <div className="mt-16 relative">
-          {/* Vertical connecting line */}
-          <div className="absolute left-[28px] md:left-[36px] top-0 bottom-0 w-px border-l border-dashed border-accent/30" aria-hidden="true" />
+          {/* SVG hand-drawn connecting line */}
+          <motion.svg
+            className="absolute left-[28px] md:left-[36px] top-0 bottom-0 w-4 h-full"
+            viewBox="0 0 16 100"
+            preserveAspectRatio="none"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+            aria-hidden="true"
+          >
+            <motion.path
+              d="M8 0 Q6 20 10 40 Q6 60 10 80 Q8 90 8 100"
+              fill="none"
+              stroke="#C8920A"
+              strokeWidth="1"
+              strokeDasharray="4 4"
+              opacity={0.3}
+              variants={lineDraw}
+            />
+          </motion.svg>
 
           <div className="space-y-12">
             {processSteps.map((step, i) => (

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import AnimatedSection from '@/components/ui/AnimatedSection'
+import { SketchConversation } from '@/components/ui/SketchIllustrations'
 import { Mail, Send } from 'lucide-react'
 
 export default function Contact() {
@@ -74,6 +75,11 @@ export default function Contact() {
               <span className="w-2 h-2 rounded-full bg-accent-light animate-pulse" />
               <span className="font-sans text-xs text-accent-light font-medium">Free initial consultation</span>
             </div>
+
+            {/* Sketch illustration */}
+            <div className="mt-10 hidden lg:block">
+              <SketchConversation className="w-32 h-32 opacity-60" />
+            </div>
           </AnimatedSection>
 
           {/* Right — Form */}
@@ -81,6 +87,7 @@ export default function Contact() {
             <form onSubmit={handleSubmit} className="space-y-8">
               <div className="form-field">
                 <input
+                  id="contact-name"
                   type="text"
                   name="name"
                   placeholder=" "
@@ -89,11 +96,12 @@ export default function Contact() {
                   required
                   autoComplete="name"
                 />
-                <label>Your name</label>
+                <label htmlFor="contact-name">Your name</label>
               </div>
 
               <div className="form-field">
                 <input
+                  id="contact-email"
                   type="email"
                   name="email"
                   placeholder=" "
@@ -102,11 +110,12 @@ export default function Contact() {
                   required
                   autoComplete="email"
                 />
-                <label>Your email</label>
+                <label htmlFor="contact-email">Your email</label>
               </div>
 
               <div className="form-field">
                 <input
+                  id="contact-company"
                   type="text"
                   name="company"
                   placeholder=" "
@@ -114,11 +123,12 @@ export default function Contact() {
                   onChange={handleChange}
                   autoComplete="organization"
                 />
-                <label>Company name</label>
+                <label htmlFor="contact-company">Company name</label>
               </div>
 
               <div className="form-field">
                 <select
+                  id="contact-service"
                   name="service"
                   value={formData.service}
                   onChange={handleChange}
@@ -131,11 +141,12 @@ export default function Contact() {
                   <option value="Financial & Data Analytics">Financial &amp; Data Analytics</option>
                   <option value="Other">Other</option>
                 </select>
-                <label>Service interest</label>
+                <label htmlFor="contact-service">Service interest</label>
               </div>
 
               <div className="form-field">
                 <textarea
+                  id="contact-message"
                   name="message"
                   placeholder=" "
                   value={formData.message}
@@ -143,7 +154,7 @@ export default function Contact() {
                   rows={4}
                   className="resize-none"
                 />
-                <label>Tell us more</label>
+                <label htmlFor="contact-message">Tell us more</label>
               </div>
 
               <button

@@ -174,18 +174,21 @@ export const testimonials = [
       'beehoop brought the strategic clarity we needed to navigate a complex cross-border transaction. Their ability to synthesise financial, operational, and market perspectives into a coherent plan was exceptional.',
     name: 'Senior Managing Director',
     title: 'Global Infrastructure Group',
+    company: 'Multinational Real Estate Developer',
   },
   {
     quote:
       'What sets beehoop apart is their commitment to execution — they didn\'t just hand us a strategy deck, they rolled up their sleeves and helped us deliver results.',
     name: 'Chief Strategy Officer',
     title: 'Multinational Energy Corporation',
+    company: 'Global Energy & Utilities Group',
   },
   {
     quote:
       'The brand strategy beehoop developed fundamentally changed how our stakeholders perceive us. The work was thorough, creative, and deeply aligned with our business objectives.',
     name: 'Group CEO',
     title: 'Oil & Gas Distribution Group',
+    company: 'International Oil & Gas Distributor',
   },
 ]
 
@@ -223,10 +226,10 @@ export const processSteps = [
 ]
 
 export const achievements = [
-  { value: '8+', label: 'Years of Advisory' },
-  { value: '30+', label: 'Projects Delivered' },
-  { value: '4+', label: 'Continents Covered' },
-  { value: '100%', label: 'Client Retention' },
+  { numericValue: 8, suffix: '+', label: 'Years of Advisory' },
+  { numericValue: 30, suffix: '+', label: 'Projects Delivered' },
+  { numericValue: 4, suffix: '+', label: 'Continents Covered' },
+  { numericValue: 100, suffix: '%', label: 'Client Retention' },
 ]
 
 export const blogPosts = [
@@ -238,6 +241,12 @@ export const blogPosts = [
     category: 'Strategy',
     date: '2026-02-15',
     readTime: '6 min read',
+    content: [
+      'In an era of unprecedented volatility, traditional strategic planning approaches are proving inadequate. Leaders face the challenge of building strategies robust enough to withstand disruption while remaining agile enough to seize emerging opportunities.',
+      'The most effective approaches combine scenario planning with iterative strategy cycles. Rather than committing to a single five-year plan, organisations benefit from establishing strategic guardrails that guide decision-making while preserving flexibility.',
+      'Key principles include: building optionality into strategic investments, developing leading indicators rather than relying on lagging metrics, and creating feedback loops that accelerate learning from market signals.',
+      'Our experience across industries shows that organisations embracing adaptive strategy consistently outperform those clinging to traditional planning cycles, achieving 30-40% better outcomes during periods of significant market disruption.',
+    ],
   },
   {
     slug: 'cross-border-ma-pitfalls',
@@ -247,6 +256,12 @@ export const blogPosts = [
     category: 'M&A',
     date: '2026-01-28',
     readTime: '8 min read',
+    content: [
+      'Cross-border M&A transactions fail at nearly twice the rate of domestic deals. After advising on transactions across four continents, we have identified five recurring pitfalls that derail even well-intentioned acquisitions.',
+      'First, cultural due diligence is often neglected. Financial models can be perfect, but if integration teams cannot bridge cultural gaps, value destruction is inevitable. Second, regulatory complexity is systematically underestimated — what appears straightforward in one jurisdiction can create months of delays in another.',
+      'Third, synergy assumptions tend to be overly optimistic. Successful acquirers discount projected synergies by 20-30% and extend realisation timelines by 50%. Fourth, talent retention strategies are typically developed too late. Key personnel losses in the first 90 days post-close are the single biggest predictor of integration failure.',
+      'Finally, communication planning is frequently an afterthought. Stakeholders — employees, customers, regulators, and communities — need consistent, transparent communication from day one. The deals that succeed are those where integration planning begins before the letter of intent is signed.',
+    ],
   },
   {
     slug: 'data-driven-decision-making',
@@ -256,5 +271,11 @@ export const blogPosts = [
     category: 'Analytics',
     date: '2026-01-10',
     readTime: '5 min read',
+    content: [
+      'Despite billions invested globally in analytics infrastructure, most organisations struggle to convert data into actionable intelligence. The gap is rarely technical — it is structural and cultural.',
+      'Effective analytics programmes start with decision architecture, not dashboard design. Before building any reporting capability, organisations must map their critical decisions and identify the specific information needed to improve each one.',
+      'The most impactful analytics frameworks share three characteristics: they focus on a small number of high-value decisions, they integrate financial and operational data into unified views, and they embed insights directly into workflow rather than requiring separate reporting tools.',
+      'Our framework — Decision-Grade Intelligence — helps organisations prioritise analytics investments based on decision impact rather than data availability. Clients implementing this approach typically achieve 60% faster decision cycles and measurable improvements in decision quality within six months.',
+    ],
   },
 ]

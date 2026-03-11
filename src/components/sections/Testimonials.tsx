@@ -1,14 +1,20 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useState, useEffect, useCallback, useRef } from 'react'
+import { motion, AnimatePresence, useInView } from 'framer-motion'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import AnimatedSection from '@/components/ui/AnimatedSection'
 import { testimonials } from '@/lib/data'
 
+function getInitials(name: string) {
+  return name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase()
+}
+
 export default function Testimonials() {
   const [current, setCurrent] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
+  const sectionRef = useRef(null)
+  const isInView = useInView(sectionRef, { amount: 0.3 })
 
   const next = useCallback(() => {
     setCurrent((prev) => (prev + 1) % testimonials.length)
@@ -19,19 +25,19 @@ export default function Testimonials() {
   }
 
   useEffect(() => {
-    if (isPaused) return
+    if (isPaused || !isInView) return
     const timer = setInterval(next, 6000)
     return () => clearInterval(timer)
-  }, [isPaused, next])
+  }, [isPaused, isInView, next])
 
   return (
-    <section className="bg-background-cream py-24 md:py-32">
+    <section ref={sectionRef} className="bg-background-cream py-24 md:py-32">
       <div className="max-w-4xl mx-auto px-6 md:px-10 lg:px-20">
         <AnimatedSection className="text-center">
           <p className="text-xs font-sans font-semibold uppercase tracking-label text-accent mb-4">
             Testimonials
           </p>
-          <h2 className="font-syne text-2xl md:text-lg font-bold text-text-primary tracking-heading">
+          <h2 className="font-syne text-lg md:text-xl font-bold text-text-primary tracking-heading">
             What our clients say
           </h2>
         </AnimatedSection>
@@ -50,9 +56,9 @@ export default function Testimonials() {
             <AnimatePresence mode="wait">
               <motion.div
                 key={current}
-                initial={{ opacity: 0, x: 40 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -40 }}
+                initial={{ opacity: 0, x: 40, scale: 0.98 }}
+                animate={{ opacity: 1, x: 0, scale: 1 }}
+                exit={{ opacity: 0, x: -40, scale: 0.98 }}
                 transition={{ duration: 0.4, ease: 'easeInOut' }}
                 drag="x"
                 dragConstraints={{ left: 0, right: 0 }}
@@ -66,13 +72,24 @@ export default function Testimonials() {
                 <p className="font-syne text-xl md:text-2xl text-text-primary italic leading-relaxed font-medium">
                   &ldquo;{testimonials[current].quote}&rdquo;
                 </p>
-                <div className="mt-8">
-                  <p className="font-sans text-sm font-bold text-text-primary">
-                    {testimonials[current].name}
-                  </p>
-                  <p className="font-sans text-xs text-text-muted mt-1">
-                    {testimonials[current].title}
-                  </p>
+                <div className="mt-8 flex flex-col items-center gap-3">
+                  {/* Initials avatar */}
+                  <div className="w-12 h-12 rounded-full bg-accent-pale flex items-center justify-center">
+                    <span className="font-syne text-sm font-bold text-accent">
+                      {getInitials(testimonials[current].name)}
+                    </span>
+                  </div>
+                  <div>
+                    <p className="font-sans text-sm font-bold text-text-primary">
+                      {testimonials[current].name}
+                    </p>
+                    <p className="font-sans text-xs text-text-muted mt-0.5">
+                      {testimonials[current].title}
+                    </p>
+                    <p className="font-sans text-xs text-accent mt-0.5">
+                      {testimonials[current].company}
+                    </p>
+                  </div>
                 </div>
               </motion.div>
             </AnimatePresence>

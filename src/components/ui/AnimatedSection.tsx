@@ -29,7 +29,7 @@ export default function AnimatedSection({
   stagger = false,
 }: AnimatedSectionProps) {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-80px' })
+  const isInView = useInView(ref, { once: true, margin: '-80px', amount: 0.1 })
 
   const initial = directionMap[direction]
   const animate = isInView

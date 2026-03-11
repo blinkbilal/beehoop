@@ -55,7 +55,7 @@ export default function Footer() {
             <ul className="space-y-2.5">
               {serviceLinks.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="font-sans text-sm text-gray-400 hover:text-accent-light transition-colors">
+                  <Link href={link.href} className="font-sans text-sm text-gray-400 hover:text-accent-light hover:underline transition-colors">
                     {link.label}
                   </Link>
                 </li>
@@ -69,7 +69,7 @@ export default function Footer() {
             <ul className="space-y-2.5">
               {companyLinks.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="font-sans text-sm text-gray-400 hover:text-accent-light transition-colors">
+                  <Link href={link.href} className="font-sans text-sm text-gray-400 hover:text-accent-light hover:underline transition-colors">
                     {link.label}
                   </Link>
                 </li>
@@ -114,12 +114,18 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <span className="font-sans text-xs text-gray-500">
-            &copy; {new Date().getFullYear()} beehoop. All rights reserved.
-          </span>
+          <div className="flex items-center gap-4">
+            <span className="font-sans text-xs text-gray-500">
+              &copy; {new Date().getFullYear()} beehoop. All rights reserved.
+            </span>
+            <span className="inline-flex items-center gap-1.5 bg-accent/10 border border-accent/20 rounded-full px-3 py-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-accent-light" />
+              <span className="font-sans text-[10px] text-accent-light font-medium">Trusted Advisory</span>
+            </span>
+          </div>
           <div className="flex gap-6">
-            <span className="font-sans text-xs text-gray-500 hover:text-gray-300 transition-colors cursor-pointer">Privacy</span>
-            <span className="font-sans text-xs text-gray-500 hover:text-gray-300 transition-colors cursor-pointer">Terms</span>
+            <a href="/privacy" className="font-sans text-xs text-gray-500 hover:text-gray-300 hover:underline transition-colors">Privacy</a>
+            <a href="/terms" className="font-sans text-xs text-gray-500 hover:text-gray-300 hover:underline transition-colors">Terms</a>
           </div>
         </div>
       </div>

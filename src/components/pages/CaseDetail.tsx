@@ -79,6 +79,19 @@ export default function CaseDetailPage({ caseStudy, related }: CaseDetailProps) 
         </div>
       </section>
 
+      {/* Client testimonial quote */}
+      <section className="py-12 bg-background-cream">
+        <div className="max-w-3xl mx-auto px-6 md:px-10 lg:px-20 text-center">
+          <AnimatedSection>
+            <span className="font-syne text-[60px] leading-none text-accent-pale select-none" aria-hidden="true">&ldquo;</span>
+            <p className="font-syne text-lg md:text-xl text-text-primary italic leading-relaxed font-medium -mt-6">
+              The engagement was transformative — beehoop brought clarity, rigour, and a commitment to results that exceeded our expectations.
+            </p>
+            <p className="font-sans text-xs text-text-muted uppercase tracking-label mt-4">{caseStudy.client}</p>
+          </AnimatedSection>
+        </div>
+      </section>
+
       {/* Related */}
       {related.length > 0 && (
         <section className="py-16 bg-background-card">

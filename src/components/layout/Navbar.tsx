@@ -2,9 +2,10 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Compass, GitMerge, Palette, BarChart2 } from 'lucide-react'
+import { Menu, X, Compass, GitMerge, Palette, BarChart2, Mail } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 const navLinks = [
   { label: 'About', href: '/about' },
@@ -28,6 +29,7 @@ export default function Navbar() {
   const dropdownTimeout = useRef<NodeJS.Timeout | null>(null)
   const hamburgerRef = useRef<HTMLButtonElement>(null)
   const firstLinkRef = useRef<HTMLAnchorElement>(null)
+  const pathname = usePathname()
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 60)
@@ -99,7 +101,11 @@ export default function Navbar() {
             >
               <Link
                 href={link.href}
-                className="nav-link font-sans text-sm font-medium text-text-secondary hover:text-text-primary transition-colors duration-300"
+                className={`nav-link font-sans text-sm font-medium transition-colors duration-300 ${
+                  pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href))
+                    ? 'text-accent'
+                    : 'text-text-secondary hover:text-text-primary'
+                }`}
               >
                 {link.label}
               </Link>
@@ -113,7 +119,7 @@ export default function Navbar() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 8 }}
                       transition={{ duration: 0.2 }}
-                      className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-80 bg-white rounded-2xl shadow-lg border border-border-subtle p-4"
+                      className="absolute top-full left-0 mt-3 w-80 bg-white rounded-2xl shadow-lg border border-border-subtle p-4"
                     >
                       {serviceDropdown.map((item) => (
                         <Link
@@ -196,7 +202,7 @@ export default function Navbar() {
                 alt=""
                 width={300}
                 height={300}
-                style={{ opacity: 0.04, width: '300px', height: 'auto' }}
+                style={{ opacity: 0.07, width: '300px', height: 'auto' }}
               />
             </div>
 
@@ -211,7 +217,11 @@ export default function Navbar() {
                   href={link.href}
                   ref={i === 0 ? firstLinkRef : undefined}
                   onClick={() => setMobileOpen(false)}
-                  className="font-syne text-2xl font-bold text-text-primary hover:text-accent transition-colors"
+                  className={`font-syne text-2xl font-bold transition-colors ${
+                    pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href))
+                      ? 'text-accent'
+                      : 'text-text-primary hover:text-accent'
+                  }`}
                 >
                   {link.label}
                 </Link>
@@ -221,7 +231,15 @@ export default function Navbar() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 + navLinks.length * 0.05, duration: 0.3 }}
+              className="flex flex-col items-center gap-4"
             >
+              <a
+                href="mailto:hello@beehoop.com"
+                className="flex items-center gap-2 font-sans text-sm text-text-muted hover:text-accent transition-colors"
+              >
+                <Mail className="w-4 h-4" />
+                hello@beehoop.com
+              </a>
               <Link
                 href="/contact"
                 onClick={() => setMobileOpen(false)}

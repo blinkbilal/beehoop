@@ -2,6 +2,7 @@
 
 import { Compass, GitMerge, Palette, BarChart2, ArrowRight } from 'lucide-react'
 import AnimatedSection from '@/components/ui/AnimatedSection'
+import { SketchCompass, SketchMerge, SketchBrush, SketchChart } from '@/components/ui/SketchIllustrations'
 import Link from 'next/link'
 
 const iconMap = {
@@ -10,6 +11,13 @@ const iconMap = {
   Palette,
   BarChart2,
 } as const
+
+const sketchMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  Compass: SketchCompass,
+  GitMerge: SketchMerge,
+  Palette: SketchBrush,
+  BarChart2: SketchChart,
+}
 
 interface ServiceCardProps {
   icon: keyof typeof iconMap
@@ -26,7 +34,7 @@ export default function ServiceCard({
   slug,
   index,
 }: ServiceCardProps) {
-  const IconComponent = iconMap[icon]
+  const SketchIcon = sketchMap[icon]
   const number = String(index + 1).padStart(2, '0')
 
   return (
@@ -39,8 +47,8 @@ export default function ServiceCard({
           </span>
 
           <div className="relative z-10">
-            <div className="w-16 h-16 rounded-xl bg-accent-pale flex items-center justify-center group-hover:bg-accent-light transition-colors duration-300">
-              <IconComponent className="w-6 h-6 text-accent" />
+            <div className="w-20 h-20">
+              {SketchIcon && <SketchIcon className="w-20 h-20" />}
             </div>
             <h3 className="font-syne text-lg font-bold text-text-primary mt-5 tracking-heading">
               {title}

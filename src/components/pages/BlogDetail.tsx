@@ -12,6 +12,7 @@ interface BlogPost {
   category: string
   date: string
   readTime: string
+  content?: string[]
 }
 
 interface BlogDetailProps {
@@ -57,23 +58,26 @@ export default function BlogDetailPage({ post, related }: BlogDetailProps) {
       <section className="py-20 md:py-28">
         <div className="max-w-3xl mx-auto px-6 md:px-10 lg:px-20">
           <AnimatedSection>
-            <div className="prose prose-neutral max-w-none font-sans text-text-secondary leading-[1.7]">
-              <p>{post.excerpt}</p>
-              <p>
-                In today&apos;s rapidly evolving business landscape, leaders face unprecedented complexity.
-                Markets shift faster, competitive advantages erode more quickly, and the volume of data available
-                for decision-making can be as much a barrier as an enabler.
-              </p>
-              <p>
-                At beehoop, we believe the answer lies not in more information, but in sharper frameworks for
-                interpreting it. Our advisory approach synthesises quantitative rigour with qualitative market
-                intelligence — delivering recommendations that are both analytically sound and pragmatically actionable.
-              </p>
-              <p>
-                The organisations that thrive are those that build strategic resilience: the ability to commit to a
-                direction while remaining adaptive enough to course-correct as conditions change. This requires not
-                just good analysis, but the institutional discipline to act on it.
-              </p>
+            <div className="prose prose-neutral max-w-none font-sans text-text-secondary leading-[1.7] space-y-6">
+              {post.content && post.content.length > 0 ? (
+                post.content.map((paragraph, i) => (
+                  <p key={i}>{paragraph}</p>
+                ))
+              ) : (
+                <>
+                  <p>{post.excerpt}</p>
+                  <p>
+                    In today&apos;s rapidly evolving business landscape, leaders face unprecedented complexity.
+                    Markets shift faster, competitive advantages erode more quickly, and the volume of data available
+                    for decision-making can be as much a barrier as an enabler.
+                  </p>
+                  <p>
+                    At beehoop, we believe the answer lies not in more information, but in sharper frameworks for
+                    interpreting it. Our advisory approach synthesises quantitative rigour with qualitative market
+                    intelligence — delivering recommendations that are both analytically sound and pragmatically actionable.
+                  </p>
+                </>
+              )}
             </div>
           </AnimatedSection>
         </div>

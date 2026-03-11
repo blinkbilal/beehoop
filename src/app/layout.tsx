@@ -77,12 +77,12 @@ export default function RootLayout({
             }),
           }}
         />
-        {/* Hidden SVG filter for pencil-sketch effect */}
+        {/* Hidden SVG filter for pencil-sketch effect (optimized) */}
         <svg width="0" height="0" className="absolute">
           <defs>
             <filter id="pencil-texture">
-              <feTurbulence type="turbulence" baseFrequency="0.03" numOctaves="4" result="noise" />
-              <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" xChannelSelector="R" yChannelSelector="G" />
+              <feTurbulence type="turbulence" baseFrequency="0.05" numOctaves="2" result="noise" />
+              <feDisplacementMap in="SourceGraphic" in2="noise" scale="0.8" xChannelSelector="R" yChannelSelector="G" />
             </filter>
           </defs>
         </svg>
