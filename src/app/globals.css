@@ -4,9 +4,8 @@
 
 :root {
   --font-nunito: 'Nunito', system-ui, sans-serif;
-  --font-serif: 'Nunito', system-ui, sans-serif;
-  --font-syne: 'Nunito', system-ui, sans-serif;
-  --font-sans: 'Nunito', system-ui, sans-serif;
+  --font-syne: 'Syne', system-ui, sans-serif;
+  --font-space: 'Space Grotesk', monospace;
 }
 
 * {
@@ -16,15 +15,95 @@
 html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 body {
   background-color: #ffffff;
   color: #0A0A0A;
   font-family: var(--font-nunito);
+  overflow-x: hidden;
 }
 
-/* Amber underline on nav hover */
+/* ── Gradient utilities ── */
+.gradient-dark-navy {
+  background: linear-gradient(135deg, #0A1628 0%, #1A2744 50%, #0D0D0D 100%);
+}
+
+.gradient-warm-gold {
+  background: linear-gradient(135deg, #F5C842 0%, #C8920A 100%);
+}
+
+.gradient-hero-subtle {
+  background: linear-gradient(180deg, #F4F6FA 0%, #FFFFFF 80%);
+}
+
+/* ── Noise overlay ── */
+.noise-overlay {
+  position: relative;
+}
+.noise-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── Pencil-sketch path drawing ── */
+@keyframes sketch-draw {
+  from {
+    stroke-dashoffset: 1000;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+.sketch-path {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: sketch-draw 2.5s ease-in-out forwards;
+}
+
+.sketch-wobble {
+  filter: url(#pencil-texture);
+}
+
+/* ── Scroll indicator bounce ── */
+@keyframes bounce-gentle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+.animate-bounce-gentle {
+  animation: bounce-gentle 2s ease-in-out infinite;
+}
+
+/* ── Text reveal ── */
+@keyframes reveal-up {
+  from { clip-path: inset(100% 0 0 0); transform: translateY(20px); }
+  to { clip-path: inset(0 0 0 0); transform: translateY(0); }
+}
+
+/* ── Marquee ── */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.logo-marquee {
+  animation: marquee 30s linear infinite;
+}
+.logo-marquee-reverse {
+  animation: marquee 30s linear infinite reverse;
+}
+
+/* ── Nav link hover underline ── */
 .nav-link {
   position: relative;
 }
@@ -36,8 +115,79 @@ body {
   width: 0;
   height: 1.5px;
   background-color: #C8920A;
-  transition: width 0.25s ease;
+  transition: width 0.3s ease;
 }
 .nav-link:hover::after {
   width: 100%;
+}
+
+/* ── Form floating labels ── */
+.form-field {
+  position: relative;
+}
+.form-field input,
+.form-field textarea,
+.form-field select {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  padding: 1rem 0 0.75rem 0;
+  width: 100%;
+  font-family: var(--font-nunito);
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+  outline: none;
+}
+.form-field input:focus,
+.form-field textarea:focus,
+.form-field select:focus {
+  border-bottom-color: #F5C842;
+}
+.form-field label {
+  position: absolute;
+  left: 0;
+  top: 1rem;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+.form-field input:focus ~ label,
+.form-field input:not(:placeholder-shown) ~ label,
+.form-field textarea:focus ~ label,
+.form-field textarea:not(:placeholder-shown) ~ label,
+.form-field select:focus ~ label,
+.form-field select:valid ~ label {
+  top: -0.5rem;
+  font-size: 0.7rem;
+  color: #F5C842;
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ── Custom scrollbar ── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #D1D5DB;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #9CA3AF;
+}
+
+/* ── Safe area for mobile sticky CTA ── */
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }

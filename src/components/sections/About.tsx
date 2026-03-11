@@ -1,50 +1,92 @@
 'use client'
 
+import { useRef, useState, useEffect } from 'react'
+import { useInView } from 'framer-motion'
 import AnimatedSection from '@/components/ui/AnimatedSection'
 import { metrics, clientTypes } from '@/lib/data'
+
+function useCountUp(target: number, duration: number = 2000) {
+  const [count, setCount] = useState(0)
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true })
+
+  useEffect(() => {
+    if (!isInView) return
+    let start = 0
+    const increment = target / (duration / 16)
+    const timer = setInterval(() => {
+      start += increment
+      if (start >= target) {
+        setCount(target)
+        clearInterval(timer)
+      } else {
+        setCount(Math.floor(start))
+      }
+    }, 16)
+    return () => clearInterval(timer)
+  }, [isInView, target, duration])
+
+  return { count, ref }
+}
+
+function MetricCounter({ value, suffix, label }: { value: number; suffix: string; label: string }) {
+  const { count, ref } = useCountUp(value)
+  return (
+    <div ref={ref}>
+      <span className="font-mono text-3xl md:text-4xl font-bold text-accent">
+        {count}{suffix}
+      </span>
+      <p className="font-sans text-xs text-text-secondary uppercase tracking-label mt-1 leading-snug">
+        {label}
+      </p>
+    </div>
+  )
+}
 
 export default function About() {
   return (
     <section id="about" className="py-24 md:py-32">
-      <div className="bg-background-card rounded-3xl mx-6 md:mx-10 lg:mx-20 px-8 md:px-16 py-16 md:py-20">
+      <div className="bg-gradient-to-br from-background-card to-white rounded-3xl mx-6 md:mx-10 lg:mx-20 px-8 md:px-16 py-16 md:py-20">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
             {/* Left column */}
             <AnimatedSection>
-              <p className="text-xs font-sans font-semibold uppercase tracking-widest text-accent mb-6">
+              <p className="text-xs font-sans font-semibold uppercase tracking-label text-accent mb-6">
                 About beehoop
               </p>
-              <blockquote className="font-serif text-3xl md:text-4xl text-text-primary italic leading-snug">
-                &ldquo;We don&apos;t stop at
-                <br />
-                the plan. We work
-                <br />
-                at the intersection
-                <br />
-                of strategy and
-                <br />
-                execution.&rdquo;
-              </blockquote>
 
-              {/* Metrics */}
+              {/* Blockquote with gold accent bar */}
+              <div className="relative pl-6 border-l-4 border-accent">
+                <blockquote className="font-syne text-2xl md:text-3xl lg:text-4xl text-text-primary italic leading-[1.2] font-bold">
+                  &ldquo;We don&apos;t stop at
+                  <br />
+                  the plan. We work
+                  <br />
+                  at the intersection
+                  <br />
+                  of strategy and
+                  <br />
+                  execution.&rdquo;
+                </blockquote>
+              </div>
+
+              {/* Metrics with count-up */}
               <hr className="border-border mt-12 mb-8" />
               <div className="grid grid-cols-3 gap-6">
                 {metrics.map((metric, i) => (
-                  <div key={i}>
-                    <span className="font-syne text-3xl md:text-4xl font-bold text-accent">
-                      {metric.value}
-                    </span>
-                    <p className="font-sans text-xs text-text-secondary uppercase tracking-wider mt-1 leading-snug">
-                      {metric.label}
-                    </p>
-                  </div>
+                  <MetricCounter
+                    key={i}
+                    value={metric.value}
+                    suffix={metric.suffix}
+                    label={metric.label}
+                  />
                 ))}
               </div>
             </AnimatedSection>
 
             {/* Right column */}
-            <AnimatedSection delay={0.15}>
-              <div className="space-y-5 font-sans text-base text-text-secondary leading-relaxed">
+            <AnimatedSection delay={0.15} direction="right">
+              <div className="space-y-5 font-sans text-base text-text-secondary leading-[1.7]">
                 <p>
                   beehoop is a strategy, financial, and branding advisory firm
                   that combines advanced planning, rigorous analysis, and proven
@@ -67,17 +109,18 @@ export default function About() {
                 </p>
               </div>
 
-              {/* Client types */}
+              {/* Client types with gold dot indicators */}
               <div className="mt-10">
-                <p className="font-sans text-xs font-semibold uppercase tracking-widest text-text-muted mb-4">
+                <p className="font-sans text-xs font-semibold uppercase tracking-label text-text-muted mb-4">
                   We work with
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {clientTypes.map((type) => (
                     <span
                       key={type}
-                      className="inline-block bg-background border border-border text-text-secondary font-sans text-xs font-medium px-3 py-1.5 rounded-full"
+                      className="inline-flex items-center gap-1.5 bg-background border border-border text-text-secondary font-sans text-xs font-medium px-3 py-1.5 rounded-full hover:bg-accent-pale hover:border-accent-pale transition-colors duration-300"
                     >
+                      <span className="w-1.5 h-1.5 rounded-full bg-accent flex-shrink-0" />
                       {type}
                     </span>
                   ))}
