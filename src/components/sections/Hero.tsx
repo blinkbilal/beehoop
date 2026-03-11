@@ -60,7 +60,7 @@ export default function Hero() {
               variants={heroVariants}
               className="text-xs font-sans font-semibold uppercase tracking-label text-accent mb-6"
             >
-              Strategy &amp; Financial &amp; Branding Advisory
+              Your Strategic Partner
             </motion.p>
 
             <motion.h1

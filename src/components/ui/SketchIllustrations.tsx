@@ -143,8 +143,31 @@ export function SketchChart({ className = '' }: { className?: string }) {
   )
 }
 
-// Network/strategy illustration for Hero
+// Neural network illustration for Hero
 export function SketchNetwork({ className = '' }: { className?: string }) {
+  // Layer x positions
+  const layerX = [100, 250, 400]
+  // Node y positions per layer
+  const layers = [
+    [80, 160, 240, 320, 400],  // input: 5 nodes
+    [120, 200, 280, 360],      // hidden: 4 nodes
+    [160, 240, 320],           // output: 3 nodes
+  ]
+  // Accent highlights: mark a few output nodes
+  const accentNodes: [number, number][] = [[2, 0], [2, 1], [2, 2]]
+
+  // Build all edges
+  const edges: { d: string; custom: number }[] = []
+  let edgeIdx = 0
+  for (let l = 0; l < layers.length - 1; l++) {
+    for (const y1 of layers[l]) {
+      for (const y2 of layers[l + 1]) {
+        edges.push({ d: `M${layerX[l]},${y1} L${layerX[l + 1]},${y2}`, custom: edgeIdx * 0.04 })
+        edgeIdx++
+      }
+    }
+  }
+
   return (
     <motion.svg
       viewBox="0 0 500 460"
@@ -153,113 +176,108 @@ export function SketchNetwork({ className = '' }: { className?: string }) {
       whileInView="visible"
       viewport={{ once: true, amount: 0.2 }}
       role="img"
-      aria-label="Strategic network — interconnected nodes representing beehoop's advisory approach"
+      aria-label="Neural network — layers of interconnected nodes representing beehoop's analytical approach"
     >
-      {/* Central hexagon filled with gold */}
-      <motion.polygon
-        points="250,190 280,207 280,241 250,258 220,241 220,207"
-        fill="#F5C842"
-        stroke="#0A0A0A"
-        strokeWidth="1.5"
-        custom={0}
-        variants={fillIn}
-        style={{ transformOrigin: '250px 224px' }}
-      />
-      <motion.polygon
-        points="250,190 280,207 280,241 250,258 220,241 220,207"
-        fill="none"
-        stroke="#0A0A0A"
-        strokeWidth="1.5"
-        custom={0}
-        variants={draw}
-      />
-
-      {/* Connecting lines from center */}
-      {[
-        'M250,190 L250,158',
-        'M250,258 L250,320',
-        'M220,207 L170,174',
-        'M280,207 L330,174',
-        'M220,241 L170,287',
-        'M280,241 L330,287',
-      ].map((d, i) => (
-        <motion.path key={d} d={d} fill="none" stroke="#0A0A0A" strokeWidth="1.5" custom={i * 0.3 + 1} variants={draw} />
-      ))}
-
-      {/* Surrounding hexagons */}
-      {[
-        '250,90 280,107 280,141 250,158 220,141 220,107',
-        '360,140 390,157 390,191 360,208 330,191 330,157',
-        '140,140 170,157 170,191 140,208 110,191 110,157',
-        '360,270 390,287 390,321 360,338 330,321 330,287',
-        '140,270 170,287 170,321 140,338 110,321 110,287',
-        '250,320 280,337 280,371 250,388 220,371 220,337',
-      ].map((pts, i) => (
-        <motion.polygon
+      {/* Edges */}
+      {edges.map((e, i) => (
+        <motion.path
           key={i}
-          points={pts}
+          d={e.d}
           fill="none"
           stroke="#0A0A0A"
-          strokeWidth="1.5"
-          custom={i * 0.3 + 2}
+          strokeWidth="0.8"
+          opacity={0.18}
+          custom={e.custom}
           variants={draw}
         />
       ))}
 
-      {/* Outer connecting lines */}
+      {/* Layer labels */}
       {[
-        'M280,107 L330,157',
-        'M220,107 L170,157',
-        'M390,157 L420,115',
-        'M110,157 L80,115',
-        'M140,208 L140,270',
-        'M360,208 L360,270',
-        'M170,321 L220,337',
-        'M330,321 L280,337',
-      ].map((d, i) => (
-        <motion.path key={d} d={d} fill="none" stroke="#0A0A0A" strokeWidth="1" opacity={0.5} custom={i * 0.15 + 3} variants={draw} />
+        { x: layerX[0], label: 'Input' },
+        { x: layerX[1], label: 'Hidden' },
+        { x: layerX[2], label: 'Output' },
+      ].map(({ x, label }) => (
+        <motion.text
+          key={label}
+          x={x}
+          y={440}
+          textAnchor="middle"
+          fontSize="11"
+          fontFamily="sans-serif"
+          fill="#0A0A0A"
+          opacity={0.35}
+          custom={3}
+          variants={fillIn}
+        >
+          {label}
+        </motion.text>
       ))}
 
-      {/* Far hexagons */}
-      <motion.polygon
-        points="430,75 452,88 452,114 430,127 408,114 408,88"
-        fill="none" stroke="#0A0A0A" strokeWidth="1" opacity={0.3}
-        custom={5} variants={draw}
-      />
-      <motion.polygon
-        points="70,75 92,88 92,114 70,127 48,114 48,88"
-        fill="none" stroke="#0A0A0A" strokeWidth="1" opacity={0.3}
-        custom={5.2} variants={draw}
-      />
+      {/* Nodes */}
+      {layers.map((ys, li) =>
+        ys.map((y, ni) => {
+          const isAccent = accentNodes.some(([al, an]) => al === li && an === ni)
+          const custom = li * 1.2 + ni * 0.25 + 1
+          return (
+            <g key={`${li}-${ni}`}>
+              {/* Filled background */}
+              <motion.circle
+                cx={layerX[li]}
+                cy={y}
+                r={li === 2 ? 14 : 12}
+                fill={isAccent ? '#F5C842' : '#fff'}
+                stroke="none"
+                custom={custom}
+                variants={fillIn}
+              />
+              {/* Stroke circle */}
+              <motion.circle
+                cx={layerX[li]}
+                cy={y}
+                r={li === 2 ? 14 : 12}
+                fill="none"
+                stroke="#0A0A0A"
+                strokeWidth="1.5"
+                custom={custom}
+                variants={draw}
+              />
+              {/* Accent ring on output nodes */}
+              {isAccent && (
+                <motion.circle
+                  cx={layerX[li]}
+                  cy={y}
+                  r={22}
+                  fill="none"
+                  stroke="#C8920A"
+                  strokeWidth="0.8"
+                  opacity={0.5}
+                  custom={custom + 0.3}
+                  variants={draw}
+                />
+              )}
+            </g>
+          )
+        })
+      )}
 
-      {/* Node dots */}
+      {/* Pulse dots on edges (decorative) */}
       {[
-        [250, 124], [250, 290], [195, 190], [305, 190], [195, 264], [305, 264],
-      ].map(([cx, cy], i) => (
+        { cx: 175, cy: 120 },
+        { cx: 175, cy: 280 },
+        { cx: 325, cy: 200 },
+        { cx: 325, cy: 320 },
+      ].map(({ cx, cy }, i) => (
         <motion.circle
-          key={i}
+          key={`pulse-${i}`}
           cx={cx}
           cy={cy}
           r="3"
-          fill="#0A0A0A"
-          custom={i * 0.2 + 4}
+          fill="#C8920A"
+          custom={i * 0.3 + 3.5}
           variants={fillIn}
         />
       ))}
-
-      {/* Decorative arcs */}
-      <motion.path
-        d="M140 338 Q190 400 250 388"
-        fill="none" stroke="#0A0A0A" strokeWidth="1" opacity={0.2}
-        strokeDasharray="4 4"
-        custom={6} variants={draw}
-      />
-      <motion.path
-        d="M360 338 Q310 400 250 388"
-        fill="none" stroke="#0A0A0A" strokeWidth="1" opacity={0.2}
-        strokeDasharray="4 4"
-        custom={6.2} variants={draw}
-      />
     </motion.svg>
   )
 }
