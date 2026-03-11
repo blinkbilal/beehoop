@@ -36,7 +36,7 @@ export default function Contact() {
         aria-hidden="true"
       >
         <Image
-          src="/logo.png"
+          src={`${process.env.NEXT_PUBLIC_BASE_PATH}/logo.png`}
           alt=""
           fill
           style={{ objectFit: 'contain', opacity: 0.04, filter: 'grayscale(100%) brightness(200%)' }}

@@ -44,7 +44,7 @@ export default function Hero() {
               className="mb-6"
             >
               <Image
-                src="/logo.png"
+                src={`${process.env.NEXT_PUBLIC_BASE_PATH}/logo.png`}
                 alt="beehoop mark"
                 width={48}
                 height={48}

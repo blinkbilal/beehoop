@@ -29,13 +29,15 @@ const spaceGrotesk = Space_Grotesk({
   display: 'swap',
 })
 
+const bp = process.env.NEXT_PUBLIC_BASE_PATH ?? ''
+
 export const metadata: Metadata = {
   metadataBase: new URL('https://blinkbilal.github.io/beehoop'),
   title: 'beehoop — Strategy & Management Consulting',
   description:
     'beehoop is a boutique consultancy working with leadership teams on strategy, structure, and execution — when it matters most.',
   icons: {
-    icon: '/favicon.ico',
+    icon: `${bp}/favicon.ico`,
   },
   openGraph: {
     title: 'beehoop — Strategy & Management Consulting',

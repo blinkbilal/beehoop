@@ -33,7 +33,7 @@ export default function Footer() {
           {/* Brand column */}
           <div>
             <Image
-              src="/name-colored.png"
+              src={`${process.env.NEXT_PUBLIC_BASE_PATH}/name-colored.png`}
               alt="beehoop"
               width={130}
               height={36}

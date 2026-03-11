@@ -81,7 +81,7 @@ export default function Navbar() {
         {/* Brand */}
         <Link href="/" className="z-50 relative flex items-center" aria-label="beehoop home">
           <Image
-            src="/logo-with-name.png"
+            src={`${process.env.NEXT_PUBLIC_BASE_PATH}/logo-with-name.png`}
             alt="beehoop"
             width={180}
             height={50}
@@ -198,7 +198,7 @@ export default function Navbar() {
             {/* Background bee watermark */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none" aria-hidden="true">
               <Image
-                src="/logo.png"
+                src={`${process.env.NEXT_PUBLIC_BASE_PATH}/logo.png`}
                 alt=""
                 width={300}
                 height={300}

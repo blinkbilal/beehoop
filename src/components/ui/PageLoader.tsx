@@ -27,7 +27,7 @@ export default function PageLoader() {
             transition={{ duration: 0.6, ease: 'easeOut' }}
           >
             <Image
-              src="/logo.png"
+              src={`${process.env.NEXT_PUBLIC_BASE_PATH}/logo.png`}
               alt="beehoop"
               width={64}
               height={64}
