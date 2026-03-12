@@ -1,11 +1,11 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Compass, GitMerge, Palette, BarChart2, Mail } from 'lucide-react'
+import { AnimatePresence, motion } from 'framer-motion'
+import { BarChart2, Compass, GitMerge, Mail, Menu, Palette, X } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useEffect, useRef, useState } from 'react'
 
 const navLinks = [
   { label: 'About', href: '/about' },
@@ -26,6 +26,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [showDropdown, setShowDropdown] = useState(false)
+  const [contactVisible, setContactVisible] = useState(false)
   const dropdownTimeout = useRef<NodeJS.Timeout | null>(null)
   const hamburgerRef = useRef<HTMLButtonElement>(null)
   const firstLinkRef = useRef<HTMLAnchorElement>(null)
@@ -36,6 +37,17 @@ export default function Navbar() {
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  useEffect(() => {
+    const contactEl = document.getElementById('contact')
+    if (!contactEl) return
+    const observer = new IntersectionObserver(
+      ([entry]) => setContactVisible(entry.isIntersecting),
+      { threshold: 0.15 }
+    )
+    observer.observe(contactEl)
+    return () => observer.disconnect()
+  }, [pathname])
 
   useEffect(() => {
     if (mobileOpen) {
@@ -71,11 +83,10 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`sticky top-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? 'bg-white/90 backdrop-blur-md shadow-[0_1px_3px_rgba(0,0,0,0.06)]'
-          : 'bg-transparent'
-      }`}
+      className={`sticky top-0 z-50 transition-all duration-300 ${scrolled
+        ? 'bg-white/90 backdrop-blur-md shadow-[0_1px_3px_rgba(0,0,0,0.06)]'
+        : 'bg-transparent'
+        }`}
     >
       <div className="max-w-7xl mx-auto px-6 md:px-10 lg:px-20 flex items-center justify-between h-16 md:h-20">
         {/* Brand */}
@@ -101,11 +112,10 @@ export default function Navbar() {
             >
               <Link
                 href={link.href}
-                className={`nav-link font-sans text-sm font-medium transition-colors duration-300 ${
-                  pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href))
-                    ? 'text-accent'
-                    : 'text-text-secondary hover:text-text-primary'
-                }`}
+                className={`nav-link font-sans text-sm font-medium transition-colors duration-300 ${pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href))
+                  ? 'text-accent'
+                  : 'text-text-secondary hover:text-text-primary'
+                  }`}
               >
                 {link.label}
               </Link>
@@ -144,13 +154,25 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* Desktop CTA */}
-        <Link
-          href="/contact"
-          className="hidden md:inline-flex border border-text-primary text-text-primary hover:bg-accent-light hover:border-accent-light hover:shadow-[0_0_20px_rgba(245,200,66,0.3)] px-5 py-2 rounded-full text-sm font-sans font-semibold transition-all duration-300"
-        >
-          Let&apos;s talk &rarr;
-        </Link>
+        {/* Desktop CTA — hides when contact section is in view */}
+        <AnimatePresence>
+          {!contactVisible && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+              className="hidden md:block"
+            >
+              <Link
+                href="/contact"
+                className="inline-flex border border-text-primary text-text-primary hover:bg-accent-light hover:border-accent-light hover:shadow-[0_0_20px_rgba(245,200,66,0.3)] px-5 py-2 rounded-full text-sm font-sans font-semibold transition-all duration-300"
+              >
+                Let&apos;s talk &rarr;
+              </Link>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Mobile hamburger */}
         <button
@@ -217,11 +239,10 @@ export default function Navbar() {
                   href={link.href}
                   ref={i === 0 ? firstLinkRef : undefined}
                   onClick={() => setMobileOpen(false)}
-                  className={`font-syne text-2xl font-bold transition-colors ${
-                    pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href))
-                      ? 'text-accent'
-                      : 'text-text-primary hover:text-accent'
-                  }`}
+                  className={`font-syne text-3xl font-bold transition-colors ${pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href))
+                    ? 'text-accent'
+                    : 'text-text-primary hover:text-accent'
+                    }`}
                 >
                   {link.label}
                 </Link>

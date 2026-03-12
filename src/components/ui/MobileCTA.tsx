@@ -1,11 +1,12 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 
 export default function MobileCTA() {
   const [visible, setVisible] = useState(false)
+  const [contactVisible, setContactVisible] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -15,21 +16,32 @@ export default function MobileCTA() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  useEffect(() => {
+    const contactEl = document.getElementById('contact')
+    if (!contactEl) return
+    const observer = new IntersectionObserver(
+      ([entry]) => setContactVisible(entry.isIntersecting),
+      { threshold: 0.15 }
+    )
+    observer.observe(contactEl)
+    return () => observer.disconnect()
+  }, [])
+
   return (
     <AnimatePresence>
-      {visible && (
+      {visible && !contactVisible && (
         <motion.div
-          initial={{ y: 100, opacity: 0 }}
+          initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          exit={{ y: 100, opacity: 0 }}
-          transition={{ duration: 0.3, ease: 'easeOut' }}
-          className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-white/90 backdrop-blur-md border-t border-border-subtle px-4 py-3 safe-bottom"
+          exit={{ y: 20, opacity: 0 }}
+          transition={{ duration: 0.25, ease: 'easeOut' }}
+          className="fixed bottom-5 right-5 z-40 safe-bottom"
         >
           <Link
             href="/contact"
-            className="block w-full text-center bg-accent-light text-text-primary font-sans font-semibold px-6 py-3.5 rounded-full text-sm hover:bg-accent-hover transition-colors"
+            className="inline-flex items-center bg-accent-light/80 backdrop-blur-sm text-text-primary font-sans font-semibold px-5 py-2.5 rounded-full text-xs shadow-md hover:bg-accent-light transition-colors"
           >
-            Start a conversation &rarr;
+            Let&apos;s talk &rarr;
           </Link>
         </motion.div>
       )}

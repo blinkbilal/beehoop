@@ -1,8 +1,8 @@
 'use client'
 
-import { Compass, GitMerge, Palette, BarChart2, ArrowRight } from 'lucide-react'
 import AnimatedSection from '@/components/ui/AnimatedSection'
-import { SketchCompass, SketchMerge, SketchBrush, SketchChart } from '@/components/ui/SketchIllustrations'
+import { SketchBrush, SketchChart, SketchCompass, SketchMerge } from '@/components/ui/SketchIllustrations'
+import { ArrowRight, BarChart2, Compass, GitMerge, Palette } from 'lucide-react'
 import Link from 'next/link'
 
 const iconMap = {
@@ -40,7 +40,7 @@ export default function ServiceCard({
   return (
     <AnimatedSection delay={index * 0.1}>
       <Link href={`/services/${slug}`} className="block h-full">
-        <div className="group relative bg-background-white border border-border rounded-2xl p-8 hover:border-accent hover:shadow-[0_8px_30px_rgba(200,146,10,0.08)] hover:-translate-y-1 transition-all duration-300 cursor-pointer h-full overflow-hidden">
+        <div className="group relative bg-background-white border border-border rounded-2xl p-6 md:p-8 hover:border-accent hover:shadow-[0_8px_30px_rgba(200,146,10,0.08)] hover:-translate-y-1 transition-all duration-300 cursor-pointer h-full overflow-hidden">
           {/* Background number */}
           <span className="absolute top-4 right-6 font-syne text-7xl font-bold text-border-subtle select-none pointer-events-none group-hover:text-accent-pale transition-colors duration-300">
             {number}
@@ -50,7 +50,7 @@ export default function ServiceCard({
             <div className="w-20 h-20">
               {SketchIcon && <SketchIcon className="w-20 h-20" />}
             </div>
-            <h3 className="font-syne text-lg font-bold text-text-primary mt-5 tracking-heading">
+            <h3 className="font-syne text-xl font-bold text-text-primary mt-5 tracking-heading">
               {title}
             </h3>
             <p className="font-sans text-sm text-text-secondary leading-relaxed mt-2">

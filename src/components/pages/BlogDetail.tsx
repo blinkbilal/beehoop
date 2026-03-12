@@ -1,9 +1,9 @@
 'use client'
 
+import Contact from '@/components/sections/Contact'
+import AnimatedSection from '@/components/ui/AnimatedSection'
 import { ArrowLeft, ArrowRight, Calendar, Clock } from 'lucide-react'
 import Link from 'next/link'
-import AnimatedSection from '@/components/ui/AnimatedSection'
-import Contact from '@/components/sections/Contact'
 
 interface BlogPost {
   slug: string
@@ -42,7 +42,7 @@ export default function BlogDetailPage({ post, related }: BlogDetailProps) {
               {post.category}
             </span>
 
-            <h1 className="font-syne text-2xl md:text-3xl lg:text-4xl font-bold text-text-primary tracking-heading leading-[1.15]">
+            <h1 className="font-syne text-3xl md:text-4xl lg:text-5xl font-bold text-text-primary tracking-heading leading-[1.15]">
               {post.title}
             </h1>
 
@@ -88,7 +88,7 @@ export default function BlogDetailPage({ post, related }: BlogDetailProps) {
         <section className="py-16 bg-background-card">
           <div className="max-w-3xl mx-auto px-6 md:px-10 lg:px-20">
             <AnimatedSection>
-              <h3 className="font-syne text-xl font-bold text-text-primary tracking-heading mb-8">
+              <h3 className="font-syne text-2xl md:text-3xl font-bold text-text-primary tracking-heading mb-8">
                 More Insights
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

@@ -1,11 +1,10 @@
 'use client'
 
+import { SketchNetwork } from '@/components/ui/SketchIllustrations'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { ArrowRight, ChevronDown } from 'lucide-react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { useRef } from 'react'
-import { SketchNetwork } from '@/components/ui/SketchIllustrations'
 
 const heroVariants = {
   hidden: { opacity: 0, y: 24 },
@@ -31,30 +30,22 @@ export default function Hero() {
   const scrollIndicatorOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0])
 
   return (
-    <section ref={sectionRef} className="gradient-hero-subtle noise-overlay min-h-[100dvh] flex items-center relative overflow-hidden">
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 lg:px-20 py-16 md:py-24 lg:py-32 w-full">
+    <section ref={sectionRef} className="gradient-hero-subtle noise-overlay min-h-[85dvh] md:min-h-[100dvh] flex items-center relative overflow-hidden">
+      {/* Mobile-only background illustration — network art, dimmed */}
+      <motion.div
+        style={{ y: illustrationY }}
+        className="absolute inset-0 flex items-center justify-end pointer-events-none select-none lg:hidden"
+        aria-hidden="true"
+      >
+        <SketchNetwork className="w-[90vw] max-w-none opacity-[0.08] translate-x-1/4" />
+      </motion.div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 lg:px-20 py-10 md:py-24 lg:py-32 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left column */}
           <motion.div style={{ y: textY }}>
-            <motion.div
-              custom={0}
-              initial="hidden"
-              animate="visible"
-              variants={heroVariants}
-              className="mb-6"
-            >
-              <Image
-                src={`${process.env.NEXT_PUBLIC_BASE_PATH}/logo.png`}
-                alt="beehoop mark"
-                width={48}
-                height={48}
-                style={{ height: '48px', width: 'auto' }}
-                priority
-              />
-            </motion.div>
-
             <motion.p
-              custom={1}
+              custom={0}
               initial="hidden"
               animate="visible"
               variants={heroVariants}
@@ -64,35 +55,32 @@ export default function Hero() {
             </motion.p>
 
             <motion.h1
+              custom={1}
+              initial="hidden"
+              animate="visible"
+              variants={heroVariants}
+              className="font-syne text-[28px] sm:text-4xl md:text-6xl lg:text-7xl xl:text-[5.5rem] text-text-primary leading-[1.08] tracking-heading font-bold"
+            >
+              We help organisations make{' '}
+              <em className="italic font-serif">better decisions</em>, faster.
+            </motion.h1>
+
+            <motion.p
               custom={2}
               initial="hidden"
               animate="visible"
               variants={heroVariants}
-              className="font-syne text-4xl md:text-6xl lg:text-7xl xl:text-[5.5rem] text-text-primary leading-[1.05] tracking-heading font-bold"
-            >
-              We help organisations
-              <br />
-              make <em className="italic font-serif">better decisions</em>,
-              <br />
-              faster.
-            </motion.h1>
-
-            <motion.p
-              custom={3}
-              initial="hidden"
-              animate="visible"
-              variants={heroVariants}
-              className="font-sans text-base md:text-md text-text-secondary max-w-md mt-6 leading-relaxed"
+              className="font-sans text-base md:text-xl text-text-secondary max-w-md mt-6 leading-relaxed"
             >
               beehoop is a strategy, financial, and branding advisory firm — combining advanced planning, rigorous analysis, and proven execution expertise to help organisations achieve lasting impact.
             </motion.p>
 
             <motion.div
-              custom={4}
+              custom={3}
               initial="hidden"
               animate="visible"
               variants={heroVariants}
-              className="mt-10 flex flex-col sm:flex-row items-start sm:items-center gap-6"
+              className="mt-8 flex flex-col sm:flex-row items-start sm:items-center gap-5"
             >
               <Link
                 href="/contact"
