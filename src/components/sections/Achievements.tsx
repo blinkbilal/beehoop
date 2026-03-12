@@ -1,9 +1,9 @@
 'use client'
 
-import { useRef, useState, useEffect } from 'react'
-import { useInView } from 'framer-motion'
 import AnimatedSection from '@/components/ui/AnimatedSection'
 import { achievements } from '@/lib/data'
+import { useInView } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
 
 function useCountUp(target: number, duration: number = 2000) {
   const [count, setCount] = useState(0)
@@ -34,7 +34,7 @@ function AchievementBadge({ numericValue, suffix, label, index }: { numericValue
   return (
     <AnimatedSection delay={index * 0.1} direction="scale">
       <div ref={ref} className="text-center px-6 py-4">
-        <span className="font-mono text-2xl md:text-3xl font-bold text-accent">
+        <span className="font-mono text-3xl md:text-4xl font-bold text-accent">
           {count}{suffix}
         </span>
         <p className="font-sans text-xs text-text-muted uppercase tracking-label mt-1">{label}</p>

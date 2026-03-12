@@ -1,8 +1,8 @@
 'use client'
 
+import { ArrowUp, Linkedin, Twitter } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowUp, Linkedin, Twitter } from 'lucide-react'
 
 const serviceLinks = [
   { label: 'Strategy Development', href: '/services/strategy-development' },
@@ -28,7 +28,7 @@ export default function Footer() {
       {/* Decorative top border */}
       <div className="h-px w-full gradient-warm-gold opacity-30" />
 
-      <div className="max-w-7xl mx-auto px-6 md:px-10 lg:px-20 py-16 md:py-20">
+      <div className="max-w-7xl mx-auto px-6 md:px-10 lg:px-20 py-16 md:py-20 pb-24 md:pb-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
           {/* Brand column */}
           <div>

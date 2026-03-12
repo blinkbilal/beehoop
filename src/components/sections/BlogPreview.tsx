@@ -1,8 +1,8 @@
 'use client'
 
-import { ArrowRight } from 'lucide-react'
 import AnimatedSection from '@/components/ui/AnimatedSection'
 import { blogPosts } from '@/lib/data'
+import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 
 export default function BlogPreview() {
@@ -13,12 +13,12 @@ export default function BlogPreview() {
           <p className="text-xs font-sans font-semibold uppercase tracking-label text-accent mb-4">
             Latest Thinking
           </p>
-          <h2 className="font-syne text-lg md:text-xl font-bold text-text-primary tracking-heading">
+          <h2 className="font-syne text-3xl md:text-4xl lg:text-5xl font-bold text-text-primary tracking-heading">
             Insights
           </h2>
         </AnimatedSection>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
           {blogPosts.map((post, i) => (
             <AnimatedSection key={post.slug} delay={i * 0.1}>
               <Link href={`/insights/${post.slug}`} className="block h-full">
@@ -29,7 +29,7 @@ export default function BlogPreview() {
                   </span>
 
                   {/* Title */}
-                  <h3 className="font-syne text-lg font-bold text-text-primary leading-snug tracking-heading mt-4">
+                  <h3 className="font-syne text-lg md:text-xl font-bold text-text-primary leading-snug tracking-heading mt-4">
                     {post.title}
                   </h3>
 

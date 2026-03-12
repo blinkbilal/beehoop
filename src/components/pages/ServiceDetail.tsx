@@ -1,10 +1,10 @@
 'use client'
 
-import { ArrowLeft, ArrowRight, CheckCircle2, Compass, GitMerge, Palette, BarChart2 } from 'lucide-react'
-import Link from 'next/link'
-import AnimatedSection from '@/components/ui/AnimatedSection'
-import { SketchCompass, SketchMerge, SketchBrush, SketchChart } from '@/components/ui/SketchIllustrations'
 import Contact from '@/components/sections/Contact'
+import AnimatedSection from '@/components/ui/AnimatedSection'
+import { SketchBrush, SketchChart, SketchCompass, SketchMerge } from '@/components/ui/SketchIllustrations'
+import { ArrowLeft, ArrowRight, BarChart2, CheckCircle2, Compass, GitMerge, Palette } from 'lucide-react'
+import Link from 'next/link'
 
 const iconMap = {
   Compass,
@@ -58,7 +58,7 @@ export default function ServiceDetailPage({ service, relatedCases }: ServiceDeta
             <h1 className="font-syne text-3xl md:text-4xl lg:text-5xl font-bold text-text-primary tracking-heading leading-[1.1]">
               {service.title}
             </h1>
-            <p className="font-sans text-md text-text-secondary mt-4 max-w-2xl leading-relaxed">
+            <p className="font-sans text-base md:text-xl text-text-secondary mt-4 max-w-2xl leading-relaxed">
               {service.description}
             </p>
           </AnimatedSection>
@@ -86,7 +86,7 @@ export default function ServiceDetailPage({ service, relatedCases }: ServiceDeta
             <div className="lg:col-span-2">
               <AnimatedSection delay={0.15} direction="right">
                 <div className="bg-background-card rounded-2xl p-6">
-                  <h3 className="font-syne text-lg font-bold text-text-primary tracking-heading mb-4">
+                  <h3 className="font-syne text-xl font-bold text-text-primary tracking-heading mb-4">
                     Key Deliverables
                   </h3>
                   <ul className="space-y-3">
@@ -109,8 +109,7 @@ export default function ServiceDetailPage({ service, relatedCases }: ServiceDeta
         <section className="py-16 bg-background-card">
           <div className="max-w-4xl mx-auto px-6 md:px-10 lg:px-20">
             <AnimatedSection>
-              <h3 className="font-syne text-xl font-bold text-text-primary tracking-heading mb-8">
-                Related Case Studies
+              <h3 className="font-syne text-2xl md:text-3xl font-bold text-text-primary tracking-heading mb-8">
               </h3>
               <div className="space-y-4">
                 {relatedCases.map((c) => (
@@ -138,7 +137,7 @@ export default function ServiceDetailPage({ service, relatedCases }: ServiceDeta
         <div className="max-w-4xl mx-auto px-6 md:px-10 lg:px-20">
           <AnimatedSection>
             <div className="bg-accent-pale rounded-2xl p-8 md:p-12 text-center">
-              <h3 className="font-syne text-xl md:text-2xl font-bold text-text-primary tracking-heading">
+              <h3 className="font-syne text-2xl md:text-3xl font-bold text-text-primary tracking-heading">
                 Ready to get started?
               </h3>
               <p className="font-sans text-sm text-text-secondary mt-3 max-w-md mx-auto leading-relaxed">

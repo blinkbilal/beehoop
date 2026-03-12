@@ -1,10 +1,10 @@
 'use client'
 
-import { useState } from 'react'
-import Image from 'next/image'
 import AnimatedSection from '@/components/ui/AnimatedSection'
 import { SketchConversation } from '@/components/ui/SketchIllustrations'
 import { Mail, Send } from 'lucide-react'
+import Image from 'next/image'
+import { useState } from 'react'
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -32,7 +32,7 @@ export default function Contact() {
     <section id="contact" className="gradient-dark-navy noise-overlay relative overflow-hidden">
       {/* Bee watermark — sketch outline style */}
       <div
-        className="absolute right-[-4rem] top-1/2 -translate-y-1/2 w-[420px] h-[420px] pointer-events-none select-none"
+        className="absolute right-[-4rem] top-1/2 -translate-y-1/2 w-[420px] h-[420px] pointer-events-none select-none hidden md:block"
         aria-hidden="true"
       >
         <Image
@@ -51,9 +51,7 @@ export default function Contact() {
               Get In Touch
             </p>
             <h2 className="font-syne text-3xl md:text-4xl lg:text-5xl text-white italic leading-[1.1] font-bold tracking-heading mt-4">
-              Ready to think
-              <br />
-              differently?
+              Ready to think differently?
             </h2>
             <p className="font-sans text-base text-gray-400 mt-6 max-w-md leading-relaxed">
               Every great outcome starts with a conversation. Share your story with us — where you are, where you want to be, and what&apos;s standing in the way. We&apos;ll bring the thinking, the rigour, and the commitment to help you get there.

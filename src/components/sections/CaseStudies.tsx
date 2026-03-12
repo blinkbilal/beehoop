@@ -1,12 +1,12 @@
 'use client'
 
-import { useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
 import AnimatedSection from '@/components/ui/AnimatedSection'
 import CaseCard from '@/components/ui/CaseCard'
 import { cases } from '@/lib/data'
-import Link from 'next/link'
+import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
+import Link from 'next/link'
+import { useState } from 'react'
 
 const filters = ['All', 'Strategy', 'M&A', 'Brand', 'Analytics']
 
@@ -24,7 +24,7 @@ export default function CaseStudies() {
           <p className="text-xs font-sans font-semibold uppercase tracking-label text-accent mb-4">
             Selected Work
           </p>
-          <h2 className="font-syne text-lg md:text-xl font-bold text-text-primary tracking-heading">
+          <h2 className="font-syne text-3xl md:text-4xl lg:text-5xl font-bold text-text-primary tracking-heading">
             Client outcomes
           </h2>
           <p className="font-sans text-base text-text-secondary mt-4 max-w-lg leading-relaxed">
@@ -39,11 +39,10 @@ export default function CaseStudies() {
             <button
               key={f}
               onClick={() => setActiveFilter(f)}
-              className={`px-4 py-2 rounded-full text-xs font-sans font-semibold transition-all duration-300 ${
-                activeFilter === f
-                  ? 'bg-accent-light text-text-primary'
-                  : 'bg-background-card text-text-secondary hover:bg-border'
-              }`}
+              className={`px-4 py-2 rounded-full text-xs font-sans font-semibold transition-all duration-300 ${activeFilter === f
+                ? 'bg-accent-light text-text-primary'
+                : 'bg-background-card text-text-secondary hover:bg-border'
+                }`}
             >
               {f}
             </button>

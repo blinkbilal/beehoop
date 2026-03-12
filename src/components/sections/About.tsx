@@ -1,9 +1,9 @@
 'use client'
 
-import { useRef, useState, useEffect } from 'react'
-import { useInView } from 'framer-motion'
 import AnimatedSection from '@/components/ui/AnimatedSection'
-import { metrics, clientTypes } from '@/lib/data'
+import { clientTypes, metrics } from '@/lib/data'
+import { useInView } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
 
 function useCountUp(target: number, duration: number = 2000) {
   const [count, setCount] = useState(0)
@@ -46,7 +46,7 @@ function MetricCounter({ value, suffix, label }: { value: number; suffix: string
 export default function About() {
   return (
     <section id="about" className="py-24 md:py-32">
-      <div className="bg-gradient-to-br from-background-card to-white rounded-3xl mx-6 md:mx-10 lg:mx-20 px-8 md:px-16 py-16 md:py-20">
+      <div className="bg-gradient-to-br from-background-card to-white rounded-3xl mx-4 md:mx-10 lg:mx-20 px-5 sm:px-8 md:px-16 py-12 md:py-20">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
             {/* Left column */}
@@ -57,22 +57,14 @@ export default function About() {
 
               {/* Blockquote with gold accent bar */}
               <div className="relative pl-6 border-l-4 border-accent">
-                <blockquote className="font-syne text-2xl md:text-3xl lg:text-4xl text-text-primary italic leading-[1.2] font-bold">
-                  &ldquo;We don&apos;t stop at
-                  <br />
-                  the plan. We work
-                  <br />
-                  at the intersection
-                  <br />
-                  of strategy and
-                  <br />
-                  execution.&rdquo;
+                <blockquote className="font-syne text-3xl md:text-4xl lg:text-5xl text-text-primary italic leading-[1.2] font-bold">
+                  &ldquo;We don&apos;t stop at the plan. We work at the intersection of strategy and execution.&rdquo;
                 </blockquote>
               </div>
 
               {/* Metrics with count-up */}
               <hr className="border-border mt-12 mb-8" />
-              <div className="grid grid-cols-3 gap-6">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
                 {metrics.map((metric, i) => (
                   <MetricCounter
                     key={i}

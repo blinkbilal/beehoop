@@ -1,8 +1,8 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import AnimatedSection from '@/components/ui/AnimatedSection'
 import { processSteps } from '@/lib/data'
+import { motion } from 'framer-motion'
 
 const lineDraw = {
   hidden: { pathLength: 0 },
@@ -17,7 +17,7 @@ export default function Process() {
           <p className="text-xs font-sans font-semibold uppercase tracking-label text-accent mb-4">
             Our Approach
           </p>
-          <h2 className="font-syne text-lg md:text-xl font-bold text-text-primary tracking-heading">
+          <h2 className="font-syne text-3xl md:text-4xl lg:text-5xl font-bold text-text-primary tracking-heading">
             How we work
           </h2>
           <p className="font-sans text-base text-text-secondary mt-3 max-w-lg leading-relaxed">
@@ -53,13 +53,13 @@ export default function Process() {
                 <div className="flex gap-6 md:gap-8 relative">
                   {/* Number bubble */}
                   <div className="relative z-10 flex-shrink-0 w-14 h-14 md:w-[72px] md:h-[72px] rounded-full bg-background border-2 border-accent/20 flex items-center justify-center">
-                    <span className="font-syne text-xl md:text-2xl font-bold text-accent">
+                    <span className="font-syne text-2xl md:text-3xl font-bold text-accent">
                       {step.number}
                     </span>
                   </div>
 
                   <div className="pt-2 md:pt-4">
-                    <h3 className="font-syne text-lg md:text-xl font-bold text-text-primary tracking-heading">
+                    <h3 className="font-syne text-xl md:text-2xl font-bold text-text-primary tracking-heading">
                       {step.title}
                     </h3>
                     <p className="font-sans text-sm text-text-secondary leading-relaxed mt-2 max-w-md">

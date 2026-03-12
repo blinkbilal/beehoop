@@ -7,13 +7,13 @@ import { services } from '@/lib/data'
 export default function Services() {
   return (
     <section id="services" className="py-24 md:py-32">
-      <div className="bg-gradient-to-br from-background-card to-white rounded-3xl mx-6 md:mx-10 lg:mx-20 px-8 md:px-16 py-16 md:py-20">
+      <div className="bg-gradient-to-br from-background-card to-white rounded-3xl mx-4 md:mx-10 lg:mx-20 px-5 sm:px-8 md:px-16 py-12 md:py-20">
         <div className="max-w-7xl mx-auto">
           <AnimatedSection>
             <p className="text-xs font-sans font-semibold uppercase tracking-label text-accent mb-4">
               What We Do
             </p>
-            <h2 className="font-syne text-lg md:text-xl font-bold text-text-primary tracking-heading">
+            <h2 className="font-syne text-3xl md:text-4xl lg:text-5xl font-bold text-text-primary tracking-heading">
               Our services
             </h2>
             <p className="font-sans text-base text-text-secondary mt-3 max-w-lg leading-relaxed">
