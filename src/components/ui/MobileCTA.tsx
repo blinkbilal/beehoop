@@ -39,7 +39,7 @@ export default function MobileCTA() {
         >
           <Link
             href="/contact"
-            className="inline-flex items-center bg-accent-light/80 backdrop-blur-sm text-text-primary font-sans font-semibold px-5 py-2.5 rounded-full text-xs shadow-md hover:bg-accent-light transition-colors"
+            className="inline-flex items-center bg-accent-light/80 backdrop-blur-sm text-[#090a0c] font-sans font-semibold px-5 py-2.5 rounded-full text-xs shadow-md hover:bg-accent-light transition-colors"
           >
             Let&apos;s talk &rarr;
           </Link>

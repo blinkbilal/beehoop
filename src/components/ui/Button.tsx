@@ -1,3 +1,4 @@
+import { Magnetic } from '@/components/ui/Magnetic'
 import { ArrowRight } from 'lucide-react'
 
 interface ButtonProps {
@@ -6,6 +7,8 @@ interface ButtonProps {
   href?: string
   className?: string
   onClick?: () => void
+  /** Wraps button in Magnetic effect (default: true for primary) */
+  magnetic?: boolean
 }
 
 export default function Button({
@@ -14,12 +17,15 @@ export default function Button({
   href,
   className = '',
   onClick,
+  magnetic,
 }: ButtonProps) {
+  const useMagnetic = magnetic ?? variant === 'primary'
+
   const baseStyles = 'inline-flex items-center gap-2 font-sans font-semibold transition-all duration-300'
 
   const variants = {
     primary:
-      'bg-accent-light text-text-primary px-7 py-4 rounded-full hover:bg-accent-hover text-sm',
+      'btn-primary text-[#090a0c] px-7 py-4 rounded-full text-sm',
     secondary:
       'text-text-primary text-sm font-medium hover:gap-3',
     outline:
@@ -28,19 +34,17 @@ export default function Button({
 
   const classes = `${baseStyles} ${variants[variant]} ${className}`
 
-  if (href) {
-    return (
-      <a href={href} className={classes}>
-        {children}
-        {variant === 'secondary' && <ArrowRight className="w-4 h-4" />}
-      </a>
-    )
-  }
-
-  return (
+  const inner = href ? (
+    <a href={href} className={classes}>
+      {children}
+      {variant === 'secondary' && <ArrowRight className="w-4 h-4" />}
+    </a>
+  ) : (
     <button onClick={onClick} className={classes}>
       {children}
       {variant === 'secondary' && <ArrowRight className="w-4 h-4" />}
     </button>
   )
+
+  return useMagnetic ? <Magnetic>{inner}</Magnetic> : inner
 }

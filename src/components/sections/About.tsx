@@ -1,103 +1,53 @@
 'use client'
 
 import AnimatedSection from '@/components/ui/AnimatedSection'
-import { clientTypes, metrics } from '@/lib/data'
-import { useInView } from 'framer-motion'
-import { useEffect, useRef, useState } from 'react'
+import { clientTypes } from '@/lib/data'
 
-function useCountUp(target: number, duration: number = 2000) {
-  const [count, setCount] = useState(0)
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true })
 
-  useEffect(() => {
-    if (!isInView) return
-    let start = 0
-    const increment = target / (duration / 16)
-    const timer = setInterval(() => {
-      start += increment
-      if (start >= target) {
-        setCount(target)
-        clearInterval(timer)
-      } else {
-        setCount(Math.floor(start))
-      }
-    }, 16)
-    return () => clearInterval(timer)
-  }, [isInView, target, duration])
-
-  return { count, ref }
-}
-
-function MetricCounter({ value, suffix, label }: { value: number; suffix: string; label: string }) {
-  const { count, ref } = useCountUp(value)
-  return (
-    <div ref={ref}>
-      <span className="font-mono text-3xl md:text-4xl font-bold text-accent">
-        {count}{suffix}
-      </span>
-      <p className="font-sans text-xs text-text-secondary uppercase tracking-label mt-1 leading-snug">
-        {label}
-      </p>
-    </div>
-  )
-}
 
 export default function About() {
   return (
     <section id="about" className="py-24 md:py-32">
-      <div className="bg-gradient-to-br from-background-card to-white rounded-3xl mx-4 md:mx-10 lg:mx-20 px-5 sm:px-8 md:px-16 py-12 md:py-20">
+      <div className="bg-gradient-to-br from-background-card to-background rounded-3xl mx-4 md:mx-10 lg:mx-20 px-5 sm:px-8 md:px-16 py-12 md:py-20">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
             {/* Left column */}
             <AnimatedSection>
-              <p className="text-xs font-sans font-semibold uppercase tracking-label text-accent mb-6">
+              <p className="text-[10px] md:text-xs font-sans font-semibold uppercase tracking-[0.2em] md:tracking-[0.3em] text-accent mb-6">
                 About beehoop
               </p>
 
               {/* Blockquote with gold accent bar */}
-              <div className="relative pl-6 border-l-4 border-accent">
-                <blockquote className="font-syne text-3xl md:text-4xl lg:text-5xl text-text-primary italic leading-[1.2] font-bold">
-                  &ldquo;We don&apos;t stop at the plan. We work at the intersection of strategy and execution.&rdquo;
+              <div className="relative pl-6 md:pl-8 border-l-[3px] border-accent/80">
+                <blockquote className="font-syne text-3xl md:text-4xl lg:text-5xl text-text-primary italic leading-[1.25] font-bold">
+                  &ldquo;We don&apos;t stop at the plan. We build the system that executes it.&rdquo;
                 </blockquote>
-              </div>
-
-              {/* Metrics with count-up */}
-              <hr className="border-border mt-12 mb-8" />
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
-                {metrics.map((metric, i) => (
-                  <MetricCounter
-                    key={i}
-                    value={metric.value}
-                    suffix={metric.suffix}
-                    label={metric.label}
-                  />
-                ))}
               </div>
             </AnimatedSection>
 
             {/* Right column */}
-            <AnimatedSection delay={0.15} direction="right">
-              <div className="space-y-5 font-sans text-base text-text-secondary leading-[1.7]">
+            <AnimatedSection delay={0.15} direction="right" className="pl-0 lg:pl-10">
+              <div className="space-y-6 font-sans text-base md:text-lg text-text-secondary leading-relaxed md:leading-loose">
                 <p>
-                  beehoop is a strategy, financial, and branding advisory firm
-                  that combines advanced planning, rigorous analysis, and proven
-                  execution expertise to help businesses achieve meaningful
-                  outcomes across strategic, financial, operational, and
-                  brand-building fronts.
+                  Born from the intersection of finance, technology, and operational
+                  expertise. beehoop is a consultancy that refuses to choose between
+                  thinking and building. We bring boardroom strategy, M&amp;A advisory,
+                  data engineering, business intelligence, and bespoke software —
+                  the full spectrum — so our clients never need to coordinate between
+                  firms.
                 </p>
                 <p>
-                  We specialise in strategy development, transformation,
-                  branding, and value creation — ensuring our clients
-                  consistently make better decisions, enhance performance, and
-                  boost shareholder returns.
+                  Most consultancies hand over a strategy deck and move on. We
+                  don&apos;t. Our engineering practice builds the data pipelines,
+                  executive dashboards, and software platforms that turn
+                  recommendations into running systems. The plan and the product
+                  come from the same team.
                 </p>
                 <p>
-                  Our team partners with sophisticated, forward-thinking
-                  organisations on their most critical initiatives. We pride
-                  ourselves on delivering rapid, visible, and sustainable
-                  improvements in performance while strengthening organisational
-                  foundations for future growth.
+                  We partner with ambitious, analytically rigorous organisations on
+                  the initiatives that matter most — delivering measurable
+                  improvements in performance while engineering the technical
+                  infrastructure for compounding growth.
                 </p>
               </div>
 

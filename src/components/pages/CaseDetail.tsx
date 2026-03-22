@@ -62,16 +62,23 @@ export default function CaseDetailPage({ caseStudy, related }: CaseDetailProps) 
 
             {/* Narrative */}
             <AnimatedSection className="md:col-span-3" delay={0.1}>
-              <h2 className="font-syne text-2xl font-bold text-text-primary tracking-heading mb-4">The Challenge</h2>
-              <p className="font-sans text-base text-text-secondary leading-[1.7]">{caseStudy.description}</p>
+              <h2 className="font-syne text-3xl lg:text-4xl font-bold text-text-primary tracking-heading mb-6">The Challenge</h2>
+              <p className="font-sans text-lg lg:text-xl text-text-secondary leading-loose">{caseStudy.description}</p>
 
-              <h2 className="font-syne text-2xl font-bold text-text-primary tracking-heading mt-10 mb-4">Our Approach</h2>
-              <p className="font-sans text-base text-text-secondary leading-[1.7]">
+              <h2 className="font-syne text-3xl lg:text-4xl font-bold text-text-primary tracking-heading mt-16 mb-6">Our Approach</h2>
+              <p className="font-sans text-lg lg:text-xl text-text-secondary leading-loose">
                 We deployed a dedicated team to work alongside the client&apos;s leadership, combining deep sector expertise with rigorous analytical frameworks. Our approach prioritised speed without sacrificing thoroughness — delivering actionable insights and clear recommendations at every stage.
               </p>
 
-              <h2 className="font-syne text-2xl font-bold text-text-primary tracking-heading mt-10 mb-4">The Result</h2>
-              <p className="font-sans text-base text-text-secondary leading-[1.7]">
+              <div className="my-16 pl-8 border-l-4 border-accent relative">
+                <span className="absolute -left-3 -top-4 font-syne text-6xl text-accent/20">&ldquo;</span>
+                <p className="font-syne text-2xl lg:text-3xl text-text-primary italic leading-relaxed font-bold">
+                  The engagement delivered unprecedented market visibility, securing competitive margins globally.
+                </p>
+              </div>
+
+              <h2 className="font-syne text-3xl lg:text-4xl font-bold text-text-primary tracking-heading mt-16 mb-6">The Result</h2>
+              <p className="font-sans text-lg lg:text-xl text-text-secondary leading-loose">
                 {caseStudy.outcome} The engagement delivered measurable impact through a combination of strategic clarity, operational rigour, and sustained execution support.
               </p>
             </AnimatedSection>
@@ -92,32 +99,26 @@ export default function CaseDetailPage({ caseStudy, related }: CaseDetailProps) 
         </div>
       </section>
 
-      {/* Related */}
+      {/* Frictionless Next Project Routing */}
       {related.length > 0 && (
-        <section className="py-16 bg-background-card">
-          <div className="max-w-4xl mx-auto px-6 md:px-10 lg:px-20">
-            <AnimatedSection>
-              <h3 className="font-syne text-2xl md:text-3xl font-bold text-text-primary tracking-heading mb-8">
-                Related Case Studies
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {related.map((c) => (
-                  <Link
-                    key={c.slug}
-                    href={`/cases/${c.slug}`}
-                    className="group bg-white rounded-xl border border-border p-6 hover:border-accent hover:shadow-sm transition-all"
-                  >
-                    <span className="text-xs font-sans font-semibold uppercase tracking-label text-accent">{c.tag}</span>
-                    <p className="font-syne text-sm font-bold text-text-primary mt-2 leading-snug">{c.outcome}</p>
-                    <div className="mt-3 flex items-center gap-1 text-xs font-sans font-semibold text-text-muted group-hover:text-accent transition-colors">
-                      Read more <ArrowRight className="w-3 h-3" />
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </AnimatedSection>
-          </div>
-        </section>
+        <Link href={`/cases/${related[0].slug}`} className="block group cursor-pointer bg-background-card border-t border-border">
+          <section className="py-24 md:py-32 hover:bg-black/20 transition-colors duration-700">
+            <div className="max-w-4xl mx-auto px-6 md:px-10 lg:px-20 text-center">
+              <AnimatedSection>
+                <p className="text-[10px] md:text-xs font-sans font-semibold uppercase tracking-[0.3em] text-accent mb-6">
+                  Up Next — {related[0].tag}
+                </p>
+                <h3 className="font-syne text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary tracking-heading leading-[1.1] mb-10 group-hover:text-accent transition-colors duration-500">
+                  {related[0].outcome}
+                </h3>
+                <span className="inline-flex items-center gap-3 bg-accent text-[#090a0c] font-sans font-bold uppercase tracking-[0.15em] px-8 py-4 rounded-full text-xs hover:scale-[1.05] transition-transform duration-300">
+                  Read Case Study
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
+                </span>
+              </AnimatedSection>
+            </div>
+          </section>
+        </Link>
       )}
 
       <Contact />

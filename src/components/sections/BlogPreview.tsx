@@ -6,6 +6,10 @@ import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 
 export default function BlogPreview() {
+  const latestPosts = [...blogPosts]
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .slice(0, 3)
+
   return (
     <section className="py-24 md:py-32 bg-background-card">
       <div className="max-w-7xl mx-auto px-6 md:px-10 lg:px-20">
@@ -19,10 +23,10 @@ export default function BlogPreview() {
         </AnimatedSection>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
-          {blogPosts.map((post, i) => (
+          {latestPosts.map((post, i) => (
             <AnimatedSection key={post.slug} delay={i * 0.1}>
               <Link href={`/insights/${post.slug}`} className="block h-full">
-                <div className="group bg-white rounded-2xl border border-border p-6 hover:shadow-[0_8px_30px_rgba(200,146,10,0.08)] hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
+                <div className="group bg-card rounded-2xl border border-border p-6 hover:shadow-[0_8px_30px_rgba(200,146,10,0.08)] hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
                   {/* Category */}
                   <span className="inline-block self-start bg-accent-pale text-accent text-[10px] font-sans font-semibold uppercase tracking-label px-2.5 py-1 rounded-full">
                     {post.category}

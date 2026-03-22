@@ -1,0 +1,44 @@
+{
+  // TypeScript — always use the project's own TS version
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+
+  // Editor
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+
+  // Tailwind CSS: recognise cn() and clsx() class lists for IntelliSense
+  "tailwindCSS.experimental.classRegex": [
+    ["cn\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
+    ["clsx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"]
+  ],
+
+  // Hide noisy build/cache folders from the file explorer
+  "files.exclude": {
+    "**/.next.nosync": true,
+    "**/node_modules": true,
+    "**/.git": true
+  },
+  "search.exclude": {
+    "**/.next.nosync": true,
+    "**/node_modules": true
+  },
+
+  // Auto-save on focus change keeps hot reload snappy
+  "files.autoSave": "onFocusChange",
+
+  // ESLint validation for TS/TSX
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ]
+}

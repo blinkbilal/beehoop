@@ -1,17 +1,17 @@
-import type { Metadata } from 'next'
-import { Nunito, Syne, Space_Grotesk } from 'next/font/google'
-import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
-import SmoothScroll from '@/components/ui/SmoothScroll'
-import PageLoader from '@/components/ui/PageLoader'
+import Navbar from '@/components/layout/Navbar'
+import { CustomCursor } from '@/components/ui/CustomCursor'
 import MobileCTA from '@/components/ui/MobileCTA'
+import PageLoader from '@/components/ui/PageLoader'
+import SmoothScroll from '@/components/ui/SmoothScroll'
+import { ThemeProvider } from '@/components/ui/ThemeProvider'
+import type { Metadata } from 'next'
+import { Inter, Space_Grotesk, Syne } from 'next/font/google'
 import './globals.css'
 
-const nunito = Nunito({
+const inter = Inter({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700', '800'],
-  style: ['normal', 'italic'],
-  variable: '--font-nunito',
+  variable: '--font-inter',
   display: 'swap',
 })
 
@@ -33,24 +33,51 @@ const bp = process.env.NEXT_PUBLIC_BASE_PATH ?? ''
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://blinkbilal.github.io/beehoop'),
-  title: 'beehoop — Strategy & Management Consulting',
+  title: {
+    default: 'beehoop | Strategy, Data & Engineering Consultancy',
+    template: '%s | beehoop',
+  },
   description:
-    'beehoop is a boutique consultancy working with leadership teams on strategy, structure, and execution — when it matters most.',
+    'beehoop is an end-to-end strategic and engineering consultancy. We deliver management strategy, M&A advisory, data pipelines, business intelligence, custom software development, and web engineering — combining boardroom thinking with deep technical execution.',
+  keywords: [
+    'management consultancy',
+    'strategy consulting',
+    'M&A advisory',
+    'data engineering',
+    'business intelligence',
+    'data pipelines',
+    'custom software development',
+    'executive dashboards',
+    'web development consultancy',
+    'system integration',
+    'financial modelling',
+    'brand strategy',
+  ],
   icons: {
     icon: `${bp}/favicon.ico`,
   },
   openGraph: {
-    title: 'beehoop — Strategy & Management Consulting',
+    title: 'beehoop | Strategy, Data & Engineering Consultancy',
     description:
-      'Strategy, Financial, and Branding Advisory firm — combining advanced planning, rigorous analysis, and proven execution expertise.',
+      'End-to-end strategic and engineering partner. From M&A advisory and financial modelling to data pipelines, BI dashboards, and custom software — we engineer the intelligence behind market-leading decisions.',
     type: 'website',
-    images: [{ url: '/og-image.png', width: 1200, height: 630 }],
+    locale: 'en_GB',
+    siteName: 'beehoop',
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'beehoop — Strategy, Data & Engineering Consultancy' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'beehoop — Strategy & Management Consulting',
+    title: 'beehoop | Strategy, Data & Engineering Consultancy',
     description:
-      'Strategy, Financial, and Branding Advisory firm — combining advanced planning, rigorous analysis, and proven execution expertise.',
+      'End-to-end strategic and engineering partner — management strategy, M&A, data pipelines, BI dashboards, and custom software development.',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, 'max-snippet': -1, 'max-image-preview': 'large' },
+  },
+  alternates: {
+    canonical: 'https://blinkbilal.github.io/beehoop',
   },
 }
 
@@ -62,20 +89,48 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${nunito.variable} ${syne.variable} ${spaceGrotesk.variable}`}
+      suppressHydrationWarning
+      className={`${inter.variable} ${syne.variable} ${spaceGrotesk.variable}`}
     >
-      <body className="font-sans antialiased bg-white text-text-primary overflow-x-hidden">
+      <body
+        className="font-sans antialiased text-foreground bg-background overflow-x-hidden transition-colors duration-300"
+        style={{ '--noise-url': `url('${bp}/textures/noise.png')` } as React.CSSProperties}
+      >
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem={false}
+          disableTransitionOnChange
+        >
         {/* JSON-LD structured data */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               '@context': 'https://schema.org',
-              '@type': 'Organization',
+              '@type': 'ProfessionalService',
               name: 'beehoop',
               url: 'https://blinkbilal.github.io/beehoop',
-              description: 'Strategy, Financial, and Branding Advisory firm — combining advanced planning, rigorous analysis, and proven execution expertise.',
+              description: 'End-to-end strategic and engineering consultancy specialising in management strategy, M&A advisory, data pipelines, business intelligence, and custom software development.',
+              email: 'hello@beehoop.com',
+              areaServed: 'Worldwide',
               sameAs: ['https://linkedin.com/company/beehoop'],
+              hasOfferCatalog: {
+                '@type': 'OfferCatalog',
+                name: 'Consulting & Engineering Services',
+                itemListElement: [
+                  { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Strategy Development' } },
+                  { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'M&A & Transactions' } },
+                  { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Brand & Market Strategy' } },
+                  { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Financial & Data Analytics' } },
+                  { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Data Architecture & Pipelines' } },
+                  { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Business Intelligence' } },
+                  { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Executive Dashboards & Reporting' } },
+                  { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Custom Software Development' } },
+                  { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Web & Application Development' } },
+                  { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'System Integration & APIs' } },
+                ],
+              },
             }),
           }}
         />
@@ -88,9 +143,10 @@ export default function RootLayout({
             </filter>
           </defs>
         </svg>
+        <CustomCursor />
         <PageLoader />
         <SmoothScroll>
-          <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-white focus:px-4 focus:py-2 focus:rounded focus:ring-2 focus:ring-accent">
+          <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-background focus:px-4 focus:py-2 focus:rounded focus:ring-2 focus:ring-accent">
             Skip to main content
           </a>
           <Navbar />
@@ -98,6 +154,7 @@ export default function RootLayout({
           <Footer />
           <MobileCTA />
         </SmoothScroll>
+        </ThemeProvider>
       </body>
     </html>
   )

@@ -1,43 +1,59 @@
 import type { Config } from 'tailwindcss'
 
 const config: Config = {
+  darkMode: 'class',
   content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
     extend: {
       colors: {
+        foreground: "hsl(var(--foreground))",
+        border: {
+          DEFAULT: "hsl(var(--border))",
+          subtle: "hsl(var(--border-subtle))",
+          strong: "hsl(var(--border-strong))"
+        },
+        input: "hsl(var(--border))",
+        ring: "hsl(var(--ring))",
         background: {
-          DEFAULT: '#FFFFFF',
-          hero: '#F4F6FA',
-          card: '#F8F9FB',
-          white: '#FFFFFF',
-          dark: '#0D0D0D',
-          navy: '#0A1628',
-          cream: '#FFF9F0',
+          DEFAULT: "hsl(var(--background))",
+          card: "hsl(var(--background-card))",
+          cream: "hsl(var(--background-cream))",
+          white: "hsl(var(--background-white))",
+          alt: "hsl(var(--background-alt))",
         },
         text: {
-          primary: '#0A0A0A',
-          secondary: '#4B5563',
-          muted: '#9CA3AF',
-          inverse: '#FFFFFF',
-          accent: '#C8920A',
+          primary: "hsl(var(--text-primary))",
+          secondary: "hsl(var(--text-secondary))",
+          muted: "hsl(var(--text-muted))",
+          inverse: "hsl(var(--text-inverse))",
+          accent: "hsl(var(--accent))",
         },
         accent: {
-          DEFAULT: '#C8920A',
-          light: '#F5C842',
-          pale: '#FEF3C7',
-          hover: '#B07D08',
-          glow: 'rgba(245, 200, 66, 0.15)',
+          DEFAULT: "hsl(var(--accent))",
+          light: "hsl(var(--accent) / 0.8)",
+          hover: "hsl(var(--accent) / 0.9)",
+          pale: "hsl(var(--accent) / 0.15)",
+          glow: "hsla(var(--accent) / 0.15)",
         },
-        border: {
-          DEFAULT: '#E5E7EB',
-          strong: '#D1D5DB',
-          subtle: '#F3F4F6',
+        muted: {
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        secondary: {
+          DEFAULT: "hsl(var(--background-alt))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--text-primary))",
+        },
+        card: {
+          DEFAULT: "hsl(var(--background-card))",
+          foreground: "hsl(var(--text-primary))",
         },
       },
       fontFamily: {
         serif: ['var(--font-syne)', 'system-ui', 'sans-serif'],
         syne: ['var(--font-syne)', 'system-ui', 'sans-serif'],
-        sans: ['var(--font-nunito)', 'system-ui', 'sans-serif'],
+        sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
         mono: ['var(--font-space)', 'monospace'],
       },
       fontSize: {
