@@ -1,6 +1,25 @@
 // ─── Service pillars ────────────────────────────────────────────────────────
 export type ServicePillar = 'advisory' | 'intelligence' | 'engineering'
 
+// ─── Case study type ─────────────────────────────────────────────────────────
+export interface CaseStudy {
+  tag: string
+  slug: string
+  client: string
+  outcome: string
+  description: string
+  metric: string
+  metricLabel: string
+  service: string
+  // ── premium fields ────────────────────────────────────────────────────────
+  pillar: 'advisory' | 'intelligence' | 'engineering'
+  sector: string
+  brief: string           // 2-sentence punch-line for the outcome card
+  nodeX: number           // canvas galaxy arc position [0, 1]
+  nodeY: number           // canvas galaxy arc position [0, 1]
+  nodeWeight: number      // relative node size [1.0 – 1.5]
+}
+
 export const pillarMeta: Record<ServicePillar, { label: string; description: string }> = {
   advisory: {
     label: 'Strategic Advisory',
@@ -224,129 +243,189 @@ export const services = [
   },
 ]
 
-export const cases = [
-  // ── Traditional advisory outcomes ─────────────────────────────────────────
+export const cases: CaseStudy[] = [
+  // ── Advisory — galaxy arc top-right ───────────────────────────────────────
   {
-    tag: 'Strategic Planning',
+    tag: 'Strategic Planning · Infrastructure',
     slug: 'logistics-infrastructure-strategy',
     client: 'Global industrial real estate developer',
-    outcome:
-      'Led strategic plan for flagship logistics infrastructure at a major Middle Eastern seaport.',
+    sector: 'Industrial Real Estate',
+    pillar: 'advisory',
+    outcome: 'Unlocked a 670% ROI infrastructure play at a tier-one Middle Eastern seaport.',
+    brief:
+      'Competitive analysis and financial modelling identified speculative and built-to-suit industrial land positions overlooked by every incumbent. Foundational partner agreements were secured before the site came to open market.',
     description:
       'Established foundational agreements, financial modelling for new developments, and explored public and private land opportunities for speculative and built-to-suit industrial real estate.',
     metric: '670%',
     metricLabel: 'ROI projection',
     service: 'Strategy',
+    nodeX: 0.76,
+    nodeY: 0.24,
+    nodeWeight: 1.50,
   },
   {
-    tag: 'M&A',
+    tag: 'M&A · Cross-Border',
     slug: 'energy-retail-expansion',
     client: 'Multinational energy group',
-    outcome:
-      'Orchestrated expansion of retail station investments across Sub-Saharan Africa.',
+    sector: 'Energy & Utilities',
+    pillar: 'advisory',
+    outcome: 'Structured a 12-market Sub-Saharan energy expansion through coordinated M&A and storage infrastructure acquisition.',
+    brief:
+      'We led end-to-end transaction execution including target identification, due diligence, and cross-border regulatory navigation. Retail fuel operations expanded with global brand partners across three time zones simultaneously.',
     description:
       'Led end-to-end M&A efforts to strengthen storage infrastructure, aligning with broader strategies of global energy brands across multiple international markets.',
     metric: '+12',
     metricLabel: 'Markets entered',
     service: 'M&A',
+    nodeX: 0.58,
+    nodeY: 0.15,
+    nodeWeight: 1.20,
   },
   {
-    tag: 'Brand Strategy',
+    tag: 'Brand Architecture · Global',
     slug: 'brand-identity-revitalisation',
     client: 'Multinational oil & gas distributor',
-    outcome:
-      'Revitalised brand identity and market positioning across South Asia and East Africa.',
+    sector: 'Oil & Gas Distribution',
+    pillar: 'advisory',
+    outcome: 'Rebuilt a multinational brand from the ground up, doubling cross-regional recognition in 18 months.',
+    brief:
+      'A full-cycle brand strategy — positioning, visual identity, and regional market integration across South Asia and East Africa. Five inconsistent regional sub-brands eliminated into a single commanding market presence.',
     description:
       'Crafted a cohesive brand identity from scratch, streamlined messaging, and integrated region-specific market insights — elevating recognition and fuelling sustainable growth.',
     metric: '+45%',
     metricLabel: 'Brand recognition',
     service: 'Brand',
+    nodeX: 0.40,
+    nodeY: 0.20,
+    nodeWeight: 1.10,
   },
   {
-    tag: 'M&A & Regulatory',
+    tag: 'M&A · Regulatory · FinTech',
     slug: 'digital-banking-licence',
     client: 'Financial services joint venture, South Asia',
-    outcome:
-      'Facilitated a pioneering digital banking licence through a first-of-its-kind joint venture.',
+    sector: 'Financial Services',
+    pillar: 'advisory',
+    outcome: 'Secured the first digital banking licence in a nascent South Asian market — months before competitors acted.',
+    brief:
+      'Mapped regulatory landscape, coordinated stakeholder engagement with governmental and financial authorities, and structured the JV operating framework. An outcome that required simultaneous legal, commercial, and diplomatic execution.',
     description:
       'Scoped market regulations, engaged governmental and financial stakeholders, and charted operational requirements to unlock a new digital banking market.',
     metric: '1st',
     metricLabel: 'Digital banking licence',
     service: 'M&A',
+    nodeX: 0.23,
+    nodeY: 0.33,
+    nodeWeight: 1.20,
   },
   {
-    tag: 'JV Formation',
+    tag: 'Joint Venture · Maritime',
     slug: 'cross-border-shipping-jv',
     client: 'Scandinavian & Middle Eastern shipping groups',
-    outcome:
-      'Established a cross-border joint venture for shipbuilding and chartering operations.',
+    sector: 'Maritime & Shipping',
+    pillar: 'advisory',
+    outcome: 'Structured a Scandinavian–Middle Eastern JV that doubled both parties\' shipbuilding and chartering footprint.',
+    brief:
+      'Aligned engineering capability, maritime financing, and logistics infrastructure across two sovereign contexts. Transaction complexity required structuring both operational terms and equity participation simultaneously.',
     description:
       'Aligned complementary strengths in engineering, logistics, and maritime financing — finalising terms that expanded both parties\' global market presence.',
     metric: '2x',
     metricLabel: 'Market reach',
     service: 'M&A',
+    nodeX: 0.14,
+    nodeY: 0.51,
+    nodeWeight: 1.10,
   },
   {
-    tag: 'M&A & Integration',
+    tag: 'M&A · Integration',
     slug: 'acquisition-growth-strategy',
     client: 'Infrastructure & surveying client, Middle East',
-    outcome:
-      'Orchestrated a full-cycle acquisition and post-merger growth strategy.',
+    sector: 'Infrastructure & Surveying',
+    pillar: 'advisory',
+    outcome: 'Managed a full-cycle acquisition and rebuilt the target for 3× revenue growth within 24 months.',
+    brief:
+      'Due diligence, negotiation, and integration planning were a single continuous workstream. Post-close, we designed the route-to-market and appointed a specialist leadership team to execute it.',
     description:
       'Managed due diligence, negotiations, and integration planning — then designed a route-to-market plan and recruited a specialist leadership team to scale the business.',
     metric: '3x',
     metricLabel: 'Revenue growth',
     service: 'Strategy',
+    nodeX: 0.25,
+    nodeY: 0.68,
+    nodeWeight: 1.20,
   },
 
-  // ── Tech-first engineering & data outcomes ────────────────────────────────
+  // ── Intelligence & Engineering — galaxy arc bottom ─────────────────────────
   {
-    tag: 'Data Architecture',
+    tag: 'Data Architecture · Engineering',
     slug: 'real-time-logistics-data-pipeline',
     client: 'Global third-party logistics company',
-    outcome:
-      'Built a real-time data pipeline replacing a 48-hour batch reporting cycle with live operational intelligence.',
+    sector: 'Third-Party Logistics',
+    pillar: 'intelligence',
+    outcome: 'Replaced a 48-hour batch reporting cycle with live operational intelligence across six global regions.',
+    brief:
+      'Event-driven architecture ingesting shipment, warehouse, and carrier telemetry at source. Three manual reconciliation roles eliminated on day one of live operation — 99.8% pipeline uptime since deployment.',
     description:
       'Designed and engineered an event-driven data architecture ingesting shipment, warehouse, and carrier telemetry across 6 regions — reducing reporting latency from 48 hours to under 90 seconds and eliminating 3 manual reconciliation roles.',
     metric: '99.8%',
     metricLabel: 'Pipeline uptime',
     service: 'Data',
+    nodeX: 0.44,
+    nodeY: 0.79,
+    nodeWeight: 1.30,
   },
   {
-    tag: 'Business Intelligence',
+    tag: 'Business Intelligence · Predictive',
     slug: 'retail-bi-cost-savings-dashboard',
     client: 'Regional multi-site retail chain',
-    outcome:
-      'Deployed a predictive BI platform that surfaced $12M in previously invisible cost inefficiencies.',
+    sector: 'Multi-Site Retail',
+    pillar: 'intelligence',
+    outcome: 'A unified BI platform surfaced $12M in cost inefficiencies that had been invisible for four years.',
+    brief:
+      'POS, inventory, supply chain, and HR data integrated into a single semantic layer. Predictive dashboards identified shrinkage patterns, overstock cycles, and labour scheduling mismatches with surgical precision.',
     description:
       'Integrated POS, inventory, supply chain, and HR data into a unified BI layer. Built predictive dashboards that identified shrinkage patterns, overstock cycles, and labour scheduling mismatches — enabling $12M in operational cost reduction within 18 months.',
     metric: '$12M',
     metricLabel: 'Cost savings identified',
     service: 'Data',
+    nodeX: 0.63,
+    nodeY: 0.74,
+    nodeWeight: 1.30,
   },
   {
-    tag: 'Software Development',
+    tag: 'Software Engineering · Compliance',
     slug: 'fintech-transaction-monitoring-platform',
     client: 'Regulated FinTech start-up, South Asia',
-    outcome:
-      'Engineered a proprietary transaction monitoring and compliance platform processing 2M+ events daily.',
+    sector: 'Regulated FinTech',
+    pillar: 'engineering',
+    outcome: 'Engineered a regulated compliance platform from scratch — passed central bank technical audit on first submission.',
+    brief:
+      'Real-time transaction risk engine with configurable rule sets, automated regulatory reporting, and a multi-tenant compliance dashboard. Replaced three legacy manual processes. Processes over 2 million transactions per day without incident.',
     description:
       'Built from the ground up: a real-time transaction risk engine with configurable rule sets, automated regulatory reporting, and a multi-tenant compliance dashboard — replacing three legacy manual processes and passing central bank technical audit on first submission.',
     metric: '2M+',
     metricLabel: 'Daily transactions processed',
     service: 'Engineering',
+    nodeX: 0.81,
+    nodeY: 0.61,
+    nodeWeight: 1.20,
   },
   {
-    tag: 'Web Development',
+    tag: 'Web Engineering · Growth',
     slug: 'professional-services-platform-rebuild',
     client: 'Pan-African professional services firm',
-    outcome:
-      'Re-engineered digital platform tripling qualified lead volume and halving time-to-contact.',
+    sector: 'Professional Services',
+    pillar: 'engineering',
+    outcome: 'A ground-up digital platform rebuild tripled qualified leads and pushed Lighthouse performance to 97.',
+    brief:
+      'Complete teardown and reconstruction in Next.js with headless CMS, structured data, and conversion-engineered UX. Organic search grew 180% within six months — not from ad spend, from engineering quality.',
     description:
       'Complete tear-down and rebuild in Next.js with a headless CMS, dynamic service pages, structured data, and conversion-optimised UX. Lighthouse performance score improved from 43 to 97. Organic search traffic increased 180% in 6 months.',
     metric: '3x',
     metricLabel: 'Qualified lead growth',
     service: 'Engineering',
+    nodeX: 0.83,
+    nodeY: 0.40,
+    nodeWeight: 1.10,
   },
 ]
 
@@ -404,40 +483,80 @@ export const processSteps = [
   {
     number: '01',
     title: 'Discovery & Diagnosis',
+    subtitle: 'See the complete picture before moving a single piece.',
     description:
-      'Deep immersion into your organisation. Stakeholder interviews, data audits, competitive benchmarking, and technical landscape mapping — we build a complete diagnostic picture before committing to any direction.',
+      'We map your organisation\'s decision architecture, data estate, competitive landscape, and operational constraints — building a diagnostic model that reveals where the real leverage is buried. Nothing is assumed. Everything is verified.',
+    deliverables: [
+      'Executive stakeholder synthesis',
+      'Data ecosystem cartography',
+      'Competitive intelligence brief',
+      'Technical debt & opportunity map',
+    ],
+    outcome: 'A shared diagnostic foundation — no ambiguity, no assumptions.',
   },
   {
     number: '02',
     title: 'Strategy & Architecture',
+    subtitle: 'Design the system, not just the slide deck.',
     description:
-      'A tailored strategic and technical framework that connects diagnosis to action. We design the roadmap, the data architecture, and the operational model in parallel — because strategy without a system is just a slide deck.',
+      'From diagnosis to framework: we architect the strategic roadmap, data layer, and operating model in parallel — because a strategy disconnected from its infrastructure is a fiction. Every recommendation traces back to evidence.',
+    deliverables: [
+      'Transformation roadmap & sequencing',
+      'Data architecture blueprint',
+      'Operating model design',
+      'Investment case & timeline',
+    ],
+    outcome: 'A connected plan where every initiative has a clear execution path.',
   },
   {
     number: '03',
     title: 'Modelling & Validation',
+    subtitle: 'Pressure-test every assumption before committing capital.',
     description:
-      'Financial modelling, scenario analysis, data pipeline prototyping, and proof-of-concept builds. Every assumption is tested. Every projection is challenged. Nothing moves forward on instinct alone.',
+      'Financial models, scenario simulations, pipeline proofs-of-concept, and stress tests. We challenge every projection and validate every assumption with live data — nothing advances on instinct. Conviction must be earned.',
+    deliverables: [
+      'Financial scenario models',
+      'Data pipeline proof-of-concept',
+      'Assumption stress-test report',
+      'Stakeholder validation sign-off',
+    ],
+    outcome: 'Conviction backed by evidence — ready for the board, ready to build.',
   },
   {
     number: '04',
     title: 'Engineering & Build',
+    subtitle: 'Architect it. Build it. Ship it.',
     description:
-      'From solution architecture to production deployment. We build the dashboards, pipelines, software, and integrations your strategy demands — with the rigour and documentation that enterprise environments require.',
+      'Production-grade dashboards, data pipelines, integrations, and custom software — engineered with the rigour, documentation, and governance that enterprise environments demand. We build for longevity, not quick wins.',
+    deliverables: [
+      'Production analytics & dashboards',
+      'Data pipelines & integrations',
+      'Custom software modules',
+      'Enterprise documentation suite',
+    ],
+    outcome: 'A live system — deployed, monitored, performing.',
   },
   {
     number: '05',
     title: 'Launch & Partnership',
+    subtitle: 'We stay. The work compounds.',
     description:
-      'We stay with you. Post-launch monitoring, performance tuning, team training, and ongoing engineering support ensure the work compounds — not decays — over time.',
+      'Post-launch is where most transformations fail. We embed with your team: monitoring, tuning, training, and evolving the platform — ensuring the value compounds rather than decays. A partnership, not a handoff.',
+    deliverables: [
+      'Launch monitoring playbook',
+      'Performance optimisation cycles',
+      'Team enablement & training',
+      'Ongoing partnership retainer',
+    ],
+    outcome: 'Measurable impact that grows — long after others have left.',
   },
 ]
 
 export const achievements = [
-  { numericValue: 320, suffix: '%+', label: 'Average Client ROI' },
-  { numericValue: 50, suffix: 'M+', prefix: '$', label: 'Value Unlocked for Clients' },
-  { numericValue: 2, suffix: 'M+', label: 'Data Events Processed Daily' },
-  { numericValue: 4, suffix: '+', label: 'Continents of Delivery' },
+  { numericValue: 320, suffix: '%+', label: 'Average Client ROI', subLabel: 'Across all engagements' },
+  { numericValue: 50, suffix: 'M+', prefix: '$', label: 'Value Created', subLabel: 'In identified efficiencies' },
+  { numericValue: 40, suffix: '+', label: 'Engagements', subLabel: 'Worldwide, 4 continents' },
+  { numericValue: 2, suffix: 'M+', label: 'Data Events Daily', subLabel: 'Across client infrastructure' },
 ]
 
 export const blogPosts = [

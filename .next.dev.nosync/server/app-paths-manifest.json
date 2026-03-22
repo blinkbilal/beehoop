@@ -1,9 +1,7 @@
 {
-  "/services/page": "app/services/page.js",
-  "/services/[slug]/page": "app/services/[slug]/page.js",
   "/page": "app/page.js",
-  "/_not-found/page": "app/_not-found/page.js",
-  "/cases/page": "app/cases/page.js",
+  "/about/page": "app/about/page.js",
   "/contact/page": "app/contact/page.js",
-  "/about/page": "app/about/page.js"
+  "/cases/[slug]/page": "app/cases/[slug]/page.js",
+  "/insights/page": "app/insights/page.js"
 }

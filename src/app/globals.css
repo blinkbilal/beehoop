@@ -410,3 +410,101 @@ body {
   transform: scale(1.03);
   box-shadow: 0 4px 24px rgba(200, 146, 10, 0.25);
 }
+
+/* ── Capability corridor hairline transitions ── */
+/* Act I → II: amber dissolving into sapphire */
+.capability-hairline-1 {
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(160,107,8,0.10) 15%,
+    rgba(100,100,100,0.06) 50%,
+    rgba(29,93,191,0.10) 85%,
+    transparent 100%
+  );
+}
+
+:is(.dark) .capability-hairline-1 {
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(200,146,10,0.14) 15%,
+    rgba(130,138,128,0.12) 50%,
+    rgba(59,130,246,0.14) 85%,
+    transparent 100%
+  );
+}
+
+/* Act II → III: sapphire dissolving into emerald */
+.capability-hairline-2 {
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(29,93,191,0.08) 15%,
+    rgba(20,130,100,0.06) 50%,
+    rgba(6,120,80,0.10) 85%,
+    transparent 100%
+  );
+}
+
+:is(.dark) .capability-hairline-2 {
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(59,130,246,0.10) 15%,
+    rgba(35,158,188,0.10) 50%,
+    rgba(16,185,129,0.14) 85%,
+    transparent 100%
+  );
+}
+
+/* ── About → KPI hairline — amber only, both sides of the proof beat ── */
+.about-to-kpi-hairline {
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(160,107,8,0.08) 20%,
+    rgba(200,146,10,0.22) 50%,
+    rgba(160,107,8,0.08) 80%,
+    transparent 100%
+  );
+}
+
+:is(.dark) .about-to-kpi-hairline {
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(200,146,10,0.10) 20%,
+    rgba(200,146,10,0.28) 50%,
+    rgba(200,146,10,0.10) 80%,
+    transparent 100%
+  );
+}
+
+/* ── KPI pulse ring — concentric amber ring behind each stat ── */
+@keyframes kpi-pulse {
+  0%   { transform: scale(1);   opacity: 0.18; }
+  50%  { transform: scale(1.45); opacity: 0.04; }
+  100% { transform: scale(1);   opacity: 0.18; }
+}
+
+.kpi-pulse-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  animation: kpi-pulse 3.5s ease-in-out infinite;
+  animation-delay: var(--pulse-delay, 0s);
+  pointer-events: none;
+}
+
+/* ── About section amber dot pulse ── */
+@keyframes amber-dot-pulse {
+  0%,
+  100% { opacity: 0.40; }
+  50%  { opacity: 1.00; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kpi-pulse-ring,
+  .amber-dot-pulse {
+    animation: none !important;
+  }
+}
