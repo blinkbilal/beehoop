@@ -1,7 +1,7 @@
+import BlogDetailPage from '@/components/pages/BlogDetail'
+import { blogPosts } from '@/lib/data'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { blogPosts } from '@/lib/data'
-import BlogDetailPage from '@/components/pages/BlogDetail'
 
 interface Props {
   params: { slug: string }
@@ -15,8 +15,19 @@ export function generateMetadata({ params }: Props): Metadata {
   const post = blogPosts.find((p) => p.slug === params.slug)
   if (!post) return { title: 'Not Found — beehoop' }
   return {
-    title: `${post.title} — beehoop`,
+    title: `${post.title} | beehoop Insights`,
     description: post.excerpt,
+    alternates: { canonical: `https://blinkbilal.github.io/beehoop/insights/${post.slug}` },
+    openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      type: 'article',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.excerpt,
+    },
   }
 }
 

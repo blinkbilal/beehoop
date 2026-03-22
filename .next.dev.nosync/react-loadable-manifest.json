@@ -1,0 +1,112 @@
+{
+  "src/app/page.tsx -> @/components/sections/BlogPreview": {
+    "id": "src/app/page.tsx -> @/components/sections/BlogPreview",
+    "files": [
+      "static/chunks/node_modules_next_ac671d._.js",
+      "static/chunks/node_modules_framer-motion_dist_es_bbafe1._.js",
+      "static/chunks/node_modules_dab219._.js",
+      "static/chunks/src_00dae8._.js",
+      "static/chunks/src_components_sections_BlogPreview_tsx_959db9._.js"
+    ]
+  },
+  "src/app/page.tsx -> @/components/sections/CaseStudies": {
+    "id": "src/app/page.tsx -> @/components/sections/CaseStudies",
+    "files": [
+      "static/chunks/node_modules_next_ac671d._.js",
+      "static/chunks/node_modules_framer-motion_dist_es_801e68._.js",
+      "static/chunks/node_modules_e1c72e._.js",
+      "static/chunks/src_eca219._.js",
+      "static/chunks/src_components_sections_CaseStudies_tsx_c08304._.js"
+    ]
+  },
+  "src/app/page.tsx -> @/components/sections/Process": {
+    "id": "src/app/page.tsx -> @/components/sections/Process",
+    "files": [
+      "static/chunks/src_530ca4._.js",
+      "static/chunks/node_modules_next_ac671d._.js",
+      "static/chunks/node_modules_framer-motion_dist_es_04c7f4._.js",
+      "static/chunks/node_modules_gsap_275234._.js",
+      "static/chunks/node_modules_dab219._.js",
+      "static/chunks/src_components_sections_Process_tsx_4e9506._.js"
+    ]
+  },
+  "src/app/page.tsx -> @/components/sections/DataEngine": {
+    "id": "src/app/page.tsx -> @/components/sections/DataEngine",
+    "files": [
+      "static/chunks/node_modules_next_ac671d._.js",
+      "static/chunks/node_modules_framer-motion_dist_es_bbafe1._.js",
+      "static/chunks/node_modules_dab219._.js",
+      "static/chunks/src_components_b97e0f._.js",
+      "static/chunks/src_components_sections_DataEngine_tsx_f24b3d._.js"
+    ]
+  },
+  "src/app/page.tsx -> @/components/sections/Services": {
+    "id": "src/app/page.tsx -> @/components/sections/Services",
+    "files": [
+      "static/chunks/src_d246c8._.js",
+      "static/chunks/node_modules_next_ac671d._.js",
+      "static/chunks/node_modules_gsap_275234._.js",
+      "static/chunks/node_modules_tailwind-merge_dist_bundle-mjs_mjs_b854ac._.js",
+      "static/chunks/node_modules_framer-motion_dist_es_92139a._.js",
+      "static/chunks/node_modules_60ee4d._.js",
+      "static/chunks/src_components_sections_Services_tsx_88f014._.js"
+    ]
+  },
+  "src/app/page.tsx -> @/components/sections/Achievements": {
+    "id": "src/app/page.tsx -> @/components/sections/Achievements",
+    "files": [
+      "static/chunks/node_modules_next_dist_47afbe._.js",
+      "static/chunks/node_modules_gsap_8ed056._.js",
+      "static/chunks/node_modules_tailwind-merge_dist_bundle-mjs_mjs_b854ac._.js",
+      "static/chunks/node_modules_framer-motion_dist_es_996a12._.js",
+      "static/chunks/node_modules_4b2042._.js",
+      "static/chunks/src_75d4ff._.js",
+      "static/chunks/src_components_sections_Achievements_tsx_ef7f25._.js"
+    ]
+  },
+  "src/app/page.tsx -> @/components/sections/Contact": {
+    "id": "src/app/page.tsx -> @/components/sections/Contact",
+    "files": [
+      "static/chunks/src_components_6e5d8d._.js",
+      "static/chunks/node_modules_next_dist_compiled_react_0bfca7._.js",
+      "static/chunks/node_modules_next_dist_compiled_react-dom_cjs_react-dom_development_c9a189.js",
+      "static/chunks/node_modules_next_dist_compiled_react-dom_index_99aff8.js",
+      "static/chunks/node_modules_next_dist_compiled_f89c59._.js",
+      "static/chunks/node_modules_next_dist_591f1b._.js",
+      "static/chunks/node_modules_next_image_11ac16.js",
+      "static/chunks/node_modules_framer-motion_dist_es_bbafe1._.js",
+      "static/chunks/node_modules_fc9bdb._.js",
+      "static/chunks/src_components_sections_Contact_tsx_b1337d._.js"
+    ]
+  },
+  "src/app/page.tsx -> @/components/sections/ClientLogos": {
+    "id": "src/app/page.tsx -> @/components/sections/ClientLogos",
+    "files": [
+      "static/chunks/node_modules_next_dist_47afbe._.js",
+      "static/chunks/node_modules_framer-motion_dist_es_bbafe1._.js",
+      "static/chunks/node_modules_670964._.js",
+      "static/chunks/src_5b95f7._.js",
+      "static/chunks/src_components_sections_ClientLogos_tsx_31ce64._.js"
+    ]
+  },
+  "src/app/page.tsx -> @/components/sections/Testimonials": {
+    "id": "src/app/page.tsx -> @/components/sections/Testimonials",
+    "files": [
+      "static/chunks/node_modules_next_dist_47afbe._.js",
+      "static/chunks/node_modules_framer-motion_dist_es_801e68._.js",
+      "static/chunks/node_modules_e5aa63._.js",
+      "static/chunks/src_c50dc5._.js",
+      "static/chunks/src_components_sections_Testimonials_tsx_4fc6a4._.js"
+    ]
+  },
+  "src/app/page.tsx -> @/components/sections/About": {
+    "id": "src/app/page.tsx -> @/components/sections/About",
+    "files": [
+      "static/chunks/node_modules_next_dist_47afbe._.js",
+      "static/chunks/node_modules_framer-motion_dist_es_bbafe1._.js",
+      "static/chunks/node_modules_670964._.js",
+      "static/chunks/src_eaf7ee._.js",
+      "static/chunks/src_components_sections_About_tsx_7c659c._.js"
+    ]
+  }
+}

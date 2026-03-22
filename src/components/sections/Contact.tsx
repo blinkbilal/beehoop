@@ -1,6 +1,7 @@
 'use client'
 
 import AnimatedSection from '@/components/ui/AnimatedSection'
+import { Magnetic } from '@/components/ui/Magnetic'
 import { SketchConversation } from '@/components/ui/SketchIllustrations'
 import { Mail, Send } from 'lucide-react'
 import Image from 'next/image'
@@ -36,7 +37,7 @@ export default function Contact() {
         aria-hidden="true"
       >
         <Image
-          src={`${process.env.NEXT_PUBLIC_BASE_PATH}/logo.png`}
+          src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/logo.png`}
           alt=""
           fill
           style={{ objectFit: 'contain', opacity: 0.04, filter: 'grayscale(100%) brightness(200%)' }}
@@ -132,11 +133,23 @@ export default function Contact() {
                   required
                 >
                   <option value="" disabled>How can we help?</option>
-                  <option value="Strategy Development">Strategy Development</option>
-                  <option value="M&A & Transactions">M&A &amp; Transactions</option>
-                  <option value="Brand & Market Strategy">Brand &amp; Market Strategy</option>
-                  <option value="Financial & Data Analytics">Financial &amp; Data Analytics</option>
-                  <option value="Other">Other</option>
+                  <optgroup label="Strategic Advisory">
+                    <option value="Strategy Development">Strategy Development</option>
+                    <option value="M&A & Transactions">M&A &amp; Transactions</option>
+                    <option value="Brand & Market Strategy">Brand &amp; Market Strategy</option>
+                    <option value="Financial & Data Analytics">Financial &amp; Data Analytics</option>
+                  </optgroup>
+                  <optgroup label="Data & Intelligence">
+                    <option value="Data Architecture & Pipelines">Data Architecture &amp; Pipelines</option>
+                    <option value="Business Intelligence">Business Intelligence</option>
+                    <option value="Executive Dashboards">Executive Dashboards</option>
+                  </optgroup>
+                  <optgroup label="Digital Engineering">
+                    <option value="Custom Software Development">Custom Software Development</option>
+                    <option value="Web & Application Development">Web &amp; Application Development</option>
+                    <option value="System Integration">System Integration</option>
+                  </optgroup>
+                  <option value="Other">Other / Not sure yet</option>
                 </select>
                 <label htmlFor="contact-service">Service interest</label>
               </div>
@@ -154,13 +167,15 @@ export default function Contact() {
                 <label htmlFor="contact-message">Tell us more</label>
               </div>
 
-              <button
-                type="submit"
-                className="w-full md:w-auto gradient-warm-gold text-text-primary font-sans font-semibold px-8 py-4 rounded-full hover:shadow-[0_0_20px_rgba(245,200,66,0.3)] hover:scale-[1.02] transition-all duration-300 text-sm flex items-center justify-center gap-2"
-              >
-                Send message
-                <Send className="w-4 h-4" />
-              </button>
+              <Magnetic>
+                <button
+                  type="submit"
+                  className="w-full md:w-auto btn-primary text-[#090a0c] font-sans font-semibold px-8 py-4 rounded-full text-sm flex items-center justify-center gap-2"
+                >
+                  Send message
+                  <Send className="w-4 h-4" />
+                </button>
+              </Magnetic>
             </form>
           </AnimatedSection>
         </div>

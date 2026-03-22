@@ -19,7 +19,7 @@ export default function PageLoader() {
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5, ease: 'easeInOut' }}
-          className="fixed inset-0 z-[9999] bg-white flex flex-col items-center justify-center"
+          className="fixed inset-0 z-[9999] bg-background flex flex-col items-center justify-center"
         >
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
@@ -27,7 +27,7 @@ export default function PageLoader() {
             transition={{ duration: 0.6, ease: 'easeOut' }}
           >
             <Image
-              src={`${process.env.NEXT_PUBLIC_BASE_PATH}/logo.png`}
+              src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/logo.png`}
               alt="beehoop"
               width={64}
               height={64}

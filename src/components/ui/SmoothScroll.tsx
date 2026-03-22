@@ -1,31 +1,44 @@
 'use client'
 
-import { useEffect } from 'react'
+import Lenis from '@studio-freight/lenis'
+import { useEffect, useRef } from 'react'
+import { usePathname } from 'next/navigation'
 
 export default function SmoothScroll({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const lenisRef = useRef<Lenis | null>(null)
+  const pathname = usePathname()
+
   useEffect(() => {
-    // Native anchor smooth scroll
-    const handleClick = (e: MouseEvent) => {
-      const target = e.target as HTMLElement
-      const anchor = target.closest('a[href^="#"]')
-      if (anchor) {
-        const href = anchor.getAttribute('href')
-        if (href && href !== '#') {
-          const el = document.querySelector(href)
-          if (el) {
-            e.preventDefault()
-            el.scrollIntoView({ behavior: 'smooth', block: 'start' })
-          }
-        }
-      }
+    const lenis = new Lenis({
+      lerp: 0.1,
+      smoothWheel: true,
+      wheelMultiplier: 1,
+    })
+
+    lenisRef.current = lenis
+
+    function raf(time: number) {
+      lenis.raf(time)
+      requestAnimationFrame(raf)
     }
-    document.addEventListener('click', handleClick)
-    return () => document.removeEventListener('click', handleClick)
+
+    requestAnimationFrame(raf)
+
+    return () => {
+      lenis.destroy()
+    }
   }, [])
+
+  // Reset scroll position on route change
+  useEffect(() => {
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(0, { immediate: true })
+    }
+  }, [pathname])
 
   return <>{children}</>
 }

@@ -52,7 +52,7 @@ export default function Testimonials() {
             &ldquo;
           </span>
 
-          <div className="relative min-h-[200px]">
+          <div className="relative min-h-[200px]" aria-live="polite" aria-atomic="true">
             <AnimatePresence mode="wait">
               <motion.div
                 key={current}
