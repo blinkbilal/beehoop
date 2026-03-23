@@ -1,19 +1,30 @@
-'use client'
+"use client"
 
-import { SketchNetwork } from '@/components/ui/SketchIllustrations'
-import { motion, useScroll, useTransform } from 'framer-motion'
-import { ArrowRight, ChevronDown } from 'lucide-react'
-import Link from 'next/link'
-import { useRef } from 'react'
+import { KineticText } from "@/components/ui/KineticText"
+import { Magnetic } from "@/components/ui/Magnetic"
+import { motion, useScroll, useTransform } from "framer-motion"
+import { ArrowRight, ChevronDown } from "lucide-react"
+import { useTheme } from "next-themes"
+import dynamic from "next/dynamic"
+import Link from "next/link"
+import { useEffect, useRef, useState } from "react"
+
+const HeroCanvas = dynamic(
+  () => import("@/components/ui/HeroCanvas").then(mod => mod.HeroCanvas),
+  { ssr: false },
+)
+const OrganicHighlight = dynamic(
+  () => import("@/components/ui/OrganicHighlight").then(mod => mod.OrganicHighlight),
+)
 
 const heroVariants = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: { opacity: 0, y: 28 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
     transition: {
-      delay: i * 0.15,
-      duration: 0.6,
+      delay: 0.3 + i * 0.18,
+      duration: 0.7,
       ease: [0.25, 0.1, 0.25, 1],
     },
   }),
@@ -21,58 +32,104 @@ const heroVariants = {
 
 export default function Hero() {
   const sectionRef = useRef(null)
+  const { theme, resolvedTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => { setMounted(true) }, [])
+  const activeTheme = resolvedTheme ?? theme
+  const isDark = !mounted || activeTheme === "dark"
+
   const { scrollYProgress } = useScroll({
     target: sectionRef,
-    offset: ['start start', 'end start'],
+    offset: ["start start", "end start"],
   })
-  const illustrationY = useTransform(scrollYProgress, [0, 1], [0, -40])
-  const textY = useTransform(scrollYProgress, [0, 1], [0, -15])
+  const textY = useTransform(scrollYProgress, [0, 1], [0, -25])
   const scrollIndicatorOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0])
+  // WebGL canvas fade-out + sink as user scrolls — organic dissolve into void
+  const canvasOpacity = useTransform(scrollYProgress, [0, 0.65, 1], [1, 0.75, 0])
+  const canvasSink = useTransform(scrollYProgress, [0, 1], [0, 60])
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? ""
+  const glassPanelStyle = {
+    background: isDark
+      ? "linear-gradient(140deg, rgba(7,7,7,0.72) 0%, rgba(19,19,19,0.58) 58%, rgba(35,35,35,0.42) 100%)"
+      : "linear-gradient(140deg, rgba(255,255,255,0.74) 0%, rgba(252,250,243,0.68) 58%, rgba(237,231,212,0.58) 100%)",
+    border: `1px solid ${isDark ? "rgba(255,255,255,0.14)" : "rgba(0,0,0,0.12)"}`,
+    boxShadow: isDark
+      ? "0 34px 90px rgba(0,0,0,0.68), inset 0 1px 0 rgba(255,255,255,0.12)"
+      : "0 28px 72px rgba(0,0,0,0.14), inset 0 1px 0 rgba(255,255,255,0.92)",
+    backdropFilter: "blur(26px) saturate(155%)",
+    WebkitBackdropFilter: "blur(26px) saturate(155%)",
+  } as const
 
   return (
-    <section ref={sectionRef} className="gradient-hero-subtle noise-overlay min-h-[85dvh] md:min-h-[100dvh] flex items-center relative overflow-hidden">
-      {/* Mobile-only background illustration — network art, dimmed */}
+    <section
+      ref={sectionRef}
+      className="hero-fade-container relative w-screen h-screen overflow-hidden"
+      style={{
+        background: isDark
+          ? "radial-gradient(125% 100% at 50% 42%, #161616 0%, #070707 45%, #000000 100%)"
+          : "radial-gradient(125% 100% at 50% 35%, #FFFFFF 0%, #EFEDE3 48%, #DBD6C4 100%)",
+        borderBottom: "none",
+        boxShadow: "none",
+      }}
+    >
+      {/* Full-viewport 3D canvas — sinks + fades on scroll for organic dissolve */}
       <motion.div
-        style={{ y: illustrationY }}
-        className="absolute inset-0 flex items-center justify-end pointer-events-none select-none lg:hidden"
-        aria-hidden="true"
+        className="absolute inset-0 w-full h-full"
+        style={{
+          opacity: isDark ? canvasOpacity : 1,
+          y: isDark ? canvasSink : 0,
+          zIndex: 0,
+        }}
       >
-        <SketchNetwork className="w-[90vw] max-w-none opacity-[0.08] translate-x-1/4" />
+        <HeroCanvas />
       </motion.div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 lg:px-20 py-10 md:py-24 lg:py-32 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Left column */}
-          <motion.div style={{ y: textY }}>
+      {/* ── Floating text — NO background, NO card, NO container ── */}
+      <div className="absolute inset-0 z-10 flex items-center pointer-events-none">
+        <motion.div
+          style={{ y: textY }}
+          className="pointer-events-auto px-6 md:px-16 lg:pl-20 lg:pr-0 max-w-[700px] -mt-[6vh]"
+        >
+          <div
+            className="relative rounded-[28px] overflow-hidden p-6 md:p-8 lg:p-10"
+            style={glassPanelStyle}
+          >
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background: isDark
+                  ? "radial-gradient(140% 100% at 0% 0%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 65%)"
+                  : "radial-gradient(140% 100% at 0% 0%, rgba(255,255,255,0.68) 0%, rgba(255,255,255,0) 70%)",
+              }}
+            />
             <motion.p
               custom={0}
               initial="hidden"
               animate="visible"
               variants={heroVariants}
-              className="text-xs font-sans font-semibold uppercase tracking-label text-accent mb-6"
+              className="relative text-[10px] md:text-xs font-sans font-semibold uppercase tracking-[0.2em] md:tracking-[0.3em] text-[#FFC107] mb-4"
             >
-              Your Strategic Partner
+              Strategy · Engineering · Intelligence
             </motion.p>
 
-            <motion.h1
-              custom={1}
-              initial="hidden"
-              animate="visible"
-              variants={heroVariants}
-              className="font-syne text-[28px] sm:text-4xl md:text-6xl lg:text-7xl xl:text-[5.5rem] text-text-primary leading-[1.08] tracking-heading font-bold"
+            <KineticText
+              as="h1"
+              className={`relative font-syne text-[clamp(1.6rem,5vw,4.5rem)] leading-[1.08] tracking-heading font-bold ${isDark ? 'text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]' : 'text-[#111111] drop-shadow-none'}`}
             >
-              We help organisations make{' '}
-              <em className="italic font-serif">better decisions</em>, faster.
-            </motion.h1>
+              Architecting Strategy.
+            </KineticText>
+            <h1 className={`relative font-syne text-[clamp(1.6rem,5vw,4.5rem)] leading-[1.08] tracking-heading font-bold mt-2 ${isDark ? 'text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]' : 'text-[#111111] drop-shadow-none'}`}>
+              Engineering the <OrganicHighlight>Future.</OrganicHighlight>
+            </h1>
 
             <motion.p
               custom={2}
               initial="hidden"
               animate="visible"
               variants={heroVariants}
-              className="font-sans text-base md:text-xl text-text-secondary max-w-md mt-6 leading-relaxed"
+              className={`relative font-sans text-sm md:text-base max-w-xl mt-8 leading-relaxed ${isDark ? 'text-slate-200/92 drop-shadow-[0_1px_6px_rgba(0,0,0,0.6)]' : 'text-[#3E3A2F]'}`}
             >
-              beehoop is a strategy, financial, and branding advisory firm — combining advanced planning, rigorous analysis, and proven execution expertise to help organisations achieve lasting impact.
+              beehoop is an end-to-end strategic and engineering powerhouse. We don&apos;t just advise; we engineer the intelligence behind market-leading decisions. From boardroom advisory and financial modeling to building scalable data pipelines, bespoke BI ecosystems, and full-stack software development — we are your partners from thinking to building.
             </motion.p>
 
             <motion.div
@@ -80,44 +137,65 @@ export default function Hero() {
               initial="hidden"
               animate="visible"
               variants={heroVariants}
-              className="mt-8 flex flex-col sm:flex-row items-start sm:items-center gap-5"
+              className="relative mt-10 flex flex-col sm:flex-row items-start sm:items-center gap-6"
             >
-              <Link
-                href="/contact"
-                className="bg-accent-light text-text-primary font-sans font-semibold px-8 py-4 rounded-full hover:bg-accent-hover hover:scale-[1.02] hover:shadow-lg transition-all duration-300 text-sm"
-              >
-                Start a conversation
-              </Link>
+              <Magnetic>
+                <Link
+                  href="/contact"
+                  className="inline-block btn-primary text-[#090a0c] font-sans font-semibold px-8 py-4 rounded-full text-sm"
+                >
+                  Start a conversation
+                </Link>
+              </Magnetic>
               <Link
                 href="/cases"
-                className="font-sans text-sm font-medium text-text-primary flex items-center gap-2 hover:gap-3 transition-all group"
+                className={`font-sans text-sm font-medium flex items-center gap-2 hover:gap-3 transition-all group ${isDark ? 'text-slate-200 hover:text-white' : 'text-[#4A4638] hover:text-[#111111]'}`}
               >
                 See our work
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             </motion.div>
-          </motion.div>
-
-          {/* Right column — Animated sketch illustration */}
-          <motion.div
-            style={{ y: illustrationY }}
-            custom={2}
-            initial="hidden"
-            animate="visible"
-            variants={heroVariants}
-            className="hidden lg:flex justify-center items-center w-full max-w-[480px] mx-auto animate-float"
-          >
-            <SketchNetwork className="w-full" />
-          </motion.div>
-        </div>
+          </div>
+        </motion.div>
       </div>
 
-      {/* Scroll indicator — fades on scroll */}
+      {/* Fluid transition: long vertical gradient blend — no hard edges.
+          Dark: #000000 → hsl(var(--background)) seamlessly.
+          Light: #F5F5F2 → hsl(var(--background)) seamlessly.
+          + subtle warm amber radial glow from bottom-centre for depth. */}
+      <div
+        className="absolute bottom-0 left-0 right-0 h-[50vh] pointer-events-none z-[5]"
+        style={{
+          background: isDark
+            ? "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 40%, hsl(var(--background)) 100%), radial-gradient(80% 60% at 50% 100%, rgba(200,146,10,0.10) 0%, rgba(200,146,10,0) 65%)"
+            : "linear-gradient(to bottom, rgba(245,245,242,0) 0%, rgba(245,245,242,0.60) 42%, hsl(var(--background)) 100%), radial-gradient(80% 60% at 50% 100%, rgba(200,146,10,0.08) 0%, rgba(200,146,10,0) 60%)",
+        }}
+      />
+      {/* Subtle filmic noise texture for analog warmth */}
+      <div
+        className="absolute bottom-0 left-0 right-0 h-[40vh] pointer-events-none z-[6] opacity-[0.05]"
+        style={{
+          backgroundImage: `url(${basePath}/textures/noise.png)`,
+          backgroundSize: "200px 200px",
+          mixBlendMode: isDark ? "screen" : "multiply",
+        }}
+      />
+      {/* Warm amber corner glow — right side only for asymmetric sophistication */}
+      <div
+        className="absolute bottom-0 right-0 w-2/5 h-[35vh] pointer-events-none z-[6]"
+        style={{
+          background: isDark
+            ? "radial-gradient(75% 65% at 100% 100%, rgba(200,146,10,0.14) 0%, rgba(200,146,10,0) 70%)"
+            : "radial-gradient(75% 65% at 100% 100%, rgba(200,146,10,0.08) 0%, rgba(200,146,10,0) 70%)",
+        }}
+      />
+
+      {/* Scroll indicator */}
       <motion.div
         style={{ opacity: scrollIndicatorOpacity }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
       >
-        <ChevronDown className="w-5 h-5 text-text-muted animate-bounce-gentle" />
+        <ChevronDown className={`w-5 h-5 animate-bounce-gentle ${isDark ? 'text-slate-500' : 'text-[#999999]'}`} />
       </motion.div>
     </section>
   )

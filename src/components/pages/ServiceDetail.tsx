@@ -2,8 +2,19 @@
 
 import Contact from '@/components/sections/Contact'
 import AnimatedSection from '@/components/ui/AnimatedSection'
-import { SketchBrush, SketchChart, SketchCompass, SketchMerge } from '@/components/ui/SketchIllustrations'
-import { ArrowLeft, ArrowRight, BarChart2, CheckCircle2, Compass, GitMerge, Palette } from 'lucide-react'
+import {
+    SketchBrush,
+    SketchChart,
+    SketchCode,
+    SketchCompass,
+    SketchDashboard,
+    SketchDatabase,
+    SketchGlobe,
+    SketchMerge,
+    SketchPlug,
+    SketchTrending,
+} from '@/components/ui/SketchIllustrations'
+import { ArrowLeft, ArrowRight, BarChart2, CheckCircle2, Code2, Compass, Cpu, Database, GitMerge, Globe, LayoutDashboard, Palette, TrendingUp } from 'lucide-react'
 import Link from 'next/link'
 
 const iconMap = {
@@ -11,6 +22,12 @@ const iconMap = {
   GitMerge,
   Palette,
   BarChart2,
+  Database,
+  TrendingUp,
+  LayoutDashboard,
+  Code2,
+  Globe,
+  Cpu,
 } as const
 
 const sketchMap: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -18,11 +35,17 @@ const sketchMap: Record<string, React.ComponentType<{ className?: string }>> = {
   GitMerge: SketchMerge,
   Palette: SketchBrush,
   BarChart2: SketchChart,
+  Database: SketchDatabase,
+  TrendingUp: SketchTrending,
+  LayoutDashboard: SketchDashboard,
+  Code2: SketchCode,
+  Globe: SketchGlobe,
+  Cpu: SketchPlug,
 }
 
 interface ServiceDetailProps {
   service: {
-    icon: keyof typeof iconMap
+    icon: string
     title: string
     slug: string
     description: string
@@ -110,13 +133,14 @@ export default function ServiceDetailPage({ service, relatedCases }: ServiceDeta
           <div className="max-w-4xl mx-auto px-6 md:px-10 lg:px-20">
             <AnimatedSection>
               <h3 className="font-syne text-2xl md:text-3xl font-bold text-text-primary tracking-heading mb-8">
+                Related Case Studies
               </h3>
               <div className="space-y-4">
                 {relatedCases.map((c) => (
                   <Link
                     key={c.slug}
                     href={`/cases/${c.slug}`}
-                    className="group flex items-center justify-between p-4 bg-white rounded-xl border border-border hover:border-accent hover:shadow-sm transition-all"
+                    className="group flex items-center justify-between p-4 bg-card rounded-xl border border-border hover:border-accent hover:shadow-sm transition-all"
                   >
                     <div>
                       <span className="text-xs font-sans font-semibold uppercase tracking-label text-accent">{c.tag}</span>
@@ -145,7 +169,7 @@ export default function ServiceDetailPage({ service, relatedCases }: ServiceDeta
               </p>
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-2 mt-6 bg-accent-light text-text-primary font-sans font-semibold px-8 py-4 rounded-full hover:bg-accent-hover hover:scale-[1.02] hover:shadow-lg transition-all duration-300 text-sm"
+                className="inline-flex items-center gap-2 mt-6 bg-accent-light text-[#090a0c] font-sans font-semibold px-8 py-4 rounded-full hover:bg-accent-hover hover:scale-[1.02] hover:shadow-lg transition-all duration-300 text-sm"
               >
                 Start a conversation
                 <ArrowRight className="w-4 h-4" />

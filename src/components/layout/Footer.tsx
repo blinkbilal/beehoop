@@ -4,11 +4,35 @@ import { ArrowUp, Linkedin, Twitter } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
-const serviceLinks = [
-  { label: 'Strategy Development', href: '/services/strategy-development' },
-  { label: 'M&A & Transactions', href: '/services/mergers-and-acquisitions' },
-  { label: 'Brand Strategy', href: '/services/brand-and-market-strategy' },
-  { label: 'Analytics', href: '/services/financial-and-data-analytics' },
+const servicePillars = [
+  {
+    heading: 'Advisory',
+    accent: 'bg-amber-500',
+    links: [
+      { label: 'Strategy Development', href: '/services/strategy-development' },
+      { label: 'M&A & Transactions', href: '/services/mergers-and-acquisitions' },
+      { label: 'Brand & Market Strategy', href: '/services/brand-and-market-strategy' },
+      { label: 'Financial & Data Analytics', href: '/services/financial-and-data-analytics' },
+    ],
+  },
+  {
+    heading: 'Intelligence',
+    accent: 'bg-sky-500',
+    links: [
+      { label: 'Data Architecture', href: '/services/data-architecture-pipelines' },
+      { label: 'Business Intelligence', href: '/services/business-intelligence' },
+      { label: 'Executive Dashboards', href: '/services/executive-dashboards' },
+    ],
+  },
+  {
+    heading: 'Engineering',
+    accent: 'bg-emerald-500',
+    links: [
+      { label: 'Custom Software', href: '/services/custom-software-development' },
+      { label: 'Web & Applications', href: '/services/web-development' },
+      { label: 'System Integration', href: '/services/system-integration' },
+    ],
+  },
 ]
 
 const companyLinks = [
@@ -29,58 +53,27 @@ export default function Footer() {
       <div className="h-px w-full gradient-warm-gold opacity-30" />
 
       <div className="max-w-7xl mx-auto px-6 md:px-10 lg:px-20 py-16 md:py-20 pb-24 md:pb-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
-          {/* Brand column */}
-          <div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-10 lg:gap-8">
+          {/* Brand column — spans 2 cols on lg */}
+          <div className="lg:col-span-2">
             <Image
-              src={`${process.env.NEXT_PUBLIC_BASE_PATH}/name-colored.png`}
+              src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/name-colored.png`}
               alt="beehoop"
               width={130}
               height={36}
               style={{ height: 'auto', width: '110px' }}
             />
             <p className="font-sans text-sm text-gray-400 mt-4 max-w-xs leading-relaxed">
-              Strategy, Financial, and Branding Advisory — combining advanced planning, rigorous analysis, and proven execution expertise.
+              Strategy, data engineering, business intelligence, and custom software — all under one roof.
             </p>
             <div className="mt-6 space-y-2">
               <a href="mailto:hello@beehoop.com" className="font-sans text-sm text-gray-300 hover:text-accent-light transition-colors block">
                 hello@beehoop.com
               </a>
             </div>
-          </div>
 
-          {/* Services column */}
-          <div>
-            <h4 className="font-syne text-sm font-bold text-white mb-4">Services</h4>
-            <ul className="space-y-2.5">
-              {serviceLinks.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className="font-sans text-sm text-gray-400 hover:text-accent-light hover:underline transition-colors">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Company column */}
-          <div>
-            <h4 className="font-syne text-sm font-bold text-white mb-4">Company</h4>
-            <ul className="space-y-2.5">
-              {companyLinks.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className="font-sans text-sm text-gray-400 hover:text-accent-light hover:underline transition-colors">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Social & back to top column */}
-          <div>
-            <h4 className="font-syne text-sm font-bold text-white mb-4">Follow Us</h4>
-            <div className="flex gap-3">
+            {/* Socials */}
+            <div className="flex gap-3 mt-6">
               <a
                 href="https://linkedin.com/company/beehoop"
                 target="_blank"
@@ -100,6 +93,39 @@ export default function Footer() {
                 <Twitter className="w-4 h-4" />
               </a>
             </div>
+          </div>
+
+          {/* Service pillar columns */}
+          {servicePillars.map((pillar) => (
+            <div key={pillar.heading}>
+              <div className="flex items-center gap-2 mb-4">
+                <span className={`w-1.5 h-1.5 rounded-full ${pillar.accent}`} />
+                <h4 className="font-syne text-xs font-bold text-white uppercase tracking-widest">{pillar.heading}</h4>
+              </div>
+              <ul className="space-y-2.5">
+                {pillar.links.map((link) => (
+                  <li key={link.href}>
+                    <Link href={link.href} className="font-sans text-sm text-gray-400 hover:text-accent-light hover:underline transition-colors">
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+
+          {/* Company + back to top column */}
+          <div>
+            <h4 className="font-syne text-xs font-bold text-white uppercase tracking-widest mb-4">Company</h4>
+            <ul className="space-y-2.5">
+              {companyLinks.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} className="font-sans text-sm text-gray-400 hover:text-accent-light hover:underline transition-colors">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
 
             {/* Back to top */}
             <button

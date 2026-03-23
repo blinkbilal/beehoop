@@ -1,20 +1,20 @@
-import { Metadata } from 'next'
 import About from '@/components/sections/About'
-import Achievements from '@/components/sections/Achievements'
-import ClientLogos from '@/components/sections/ClientLogos'
 import Contact from '@/components/sections/Contact'
+import Leadership from '@/components/sections/Leadership'
+import { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'About — beehoop',
-  description: 'beehoop is a strategy, financial, and branding advisory firm — combining advanced planning, rigorous analysis, and proven execution expertise.',
+  description: 'beehoop is an end-to-end strategic and engineering consultancy — combining boardroom advisory, data architecture, business intelligence, and custom software with rigorous analysis and proven execution.',
 }
 
 export default function AboutPage() {
   return (
     <>
-      <About />
-      <Achievements />
-      <ClientLogos />
+      <div className="pt-10 md:pt-16">
+        <About />
+      </div>
+      <Leadership />
       <Contact />
     </>
   )

@@ -96,7 +96,7 @@ export default function BlogDetailPage({ post, related }: BlogDetailProps) {
                   <Link
                     key={p.slug}
                     href={`/insights/${p.slug}`}
-                    className="group bg-white rounded-xl border border-border p-6 hover:border-accent hover:shadow-sm transition-all"
+                    className="group bg-card rounded-xl border border-border p-6 hover:border-accent hover:shadow-sm transition-all"
                   >
                     <span className="text-xs font-sans font-semibold uppercase tracking-label text-accent">{p.category}</span>
                     <p className="font-syne text-sm font-bold text-text-primary mt-2 leading-snug">{p.title}</p>

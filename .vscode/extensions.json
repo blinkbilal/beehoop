@@ -1,0 +1,21 @@
+{
+  "recommendations": [
+    // Styling
+    "bradlc.vscode-tailwindcss",
+
+    // Linting & Formatting
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+
+    // React / Next.js DX
+    "dsznajder.es7-react-js-snippets",
+    "formulahendry.auto-rename-tag",
+    "christian-kohler.path-intellisense",
+
+    // Git
+    "eamodio.gitlens",
+
+    // Theme & Icons (optional but polished)
+    "PKief.material-icon-theme"
+  ]
+}

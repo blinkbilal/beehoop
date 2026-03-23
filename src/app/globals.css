@@ -2,10 +2,73 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --font-nunito: 'Nunito', system-ui, sans-serif;
-  --font-syne: 'Syne', system-ui, sans-serif;
-  --font-space: 'Space Grotesk', monospace;
+@layer base {
+  :root {
+    /* Base Backgrounds */
+    --background: 60 11% 96%; /* #F5F5F2 - Paper White */
+    --background-card: 0 0% 100%; /* #ffffff */
+    --background-cream: 40 33% 97%; /* #fcfaf8 - warm off-white */
+    --background-white: 0 0% 100%;
+    --background-alt: 210 24% 96%; /* #f1f5f9 - cool gray */
+
+    /* Text */
+    --text-primary: 215 28% 17%; /* #1e293b - deep slate, not pure black */
+    --text-secondary: 215 20% 38%; /* #506079 — WCAG 5.9:1 on white */
+    --text-muted: 215 18% 48%; /* #627589 — WCAG 4.6:1 on white */
+    --text-inverse: 0 0% 100%; /* #ffffff */
+
+    /* Borders */
+    --border: 214 32% 91%; /* #e2e8f0 */
+    --border-subtle: 210 40% 96%; /* #f1f5f9 */
+    --border-strong: 215 20% 65%; /* #94a3b8 */
+
+    /* Brand Accent */
+    --accent: 43 95% 42%; /* #CF970A - Gold */
+
+    /* Semantic aliases (Tailwind text-foreground / text-muted-foreground) */
+    --foreground: 215 28% 17%;
+    --muted-foreground: 215 18% 48%;
+
+    /* UI Primitives */
+    --popover: 0 0% 100%;
+    --ring: 215 28% 17%;
+    --radius: 0.75rem;
+    
+    --font-inter: 'Inter', system-ui, sans-serif;
+    --font-syne: 'Syne', system-ui, sans-serif;
+    --font-space: 'Space Grotesk', monospace;
+  }
+
+  .dark {
+    /* Base Backgrounds */
+    --background: 0 0% 0%; /* #000000 - pure void black */
+    --background-card: 0 0% 6%; /* #0F0F0F - elevated surface */
+    --background-cream: 0 0% 4%; /* very slight elevation */
+    --background-white: 0 0% 0%; 
+    --background-alt: 0 0% 7%; /* #121212 */
+
+    /* Text */
+    --text-primary: 0 0% 95%; /* #f2f2f2 - soft white, anti-glare */
+    --text-secondary: 215 14% 65%; /* #94a3b8 - legible mid-grey */
+    --text-muted: 215 15% 45%; /* #64748b */
+    --text-inverse: 220 10% 4%; /* deep dark */
+
+    /* Borders */
+    --border: 220 10% 15%; /* #22252b */
+    --border-subtle: 220 10% 10%; /* #17191e */
+    --border-strong: 220 10% 25%; /* #393e48 */
+
+    /* Brand Accent */
+    --accent: 43 95% 42%; 
+
+    /* Semantic aliases */
+    --foreground: 0 0% 95%;
+    --muted-foreground: 215 15% 45%;
+
+    /* UI Primitives */
+    --popover: 220 10% 7%;
+    --ring: 220 15% 30%;
+  }
 }
 
 * {
@@ -13,21 +76,29 @@
 }
 
 html {
-  scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
 
 body {
-  background-color: #ffffff;
-  color: #0A0A0A;
-  font-family: var(--font-nunito);
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: var(--font-inter);
   overflow-x: hidden;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 
 /* ── Gradient utilities ── */
 .gradient-dark-navy {
-  background: linear-gradient(135deg, #0A1628 0%, #1A2744 50%, #0D0D0D 100%);
+  background: linear-gradient(135deg, hsl(var(--background-card)) 0%, hsl(var(--background-alt)) 100%);
 }
 
 .gradient-warm-gold {
@@ -35,7 +106,7 @@ body {
 }
 
 .gradient-hero-subtle {
-  background: linear-gradient(180deg, #F4F6FA 0%, #FFFFFF 80%);
+  background: linear-gradient(180deg, hsl(var(--background-alt)) 0%, hsl(var(--background)) 80%);
 }
 
 /* ── Noise overlay (static PNG — avoids expensive feTurbulence) ── */
@@ -47,7 +118,7 @@ body {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url('/beehoop/textures/noise.png');
+  background-image: var(--noise-url, url('/textures/noise.png'));
   background-repeat: repeat;
   background-size: 200px 200px;
   pointer-events: none;
@@ -161,6 +232,25 @@ body {
   width: 100%;
 }
 
+/* ── Hero seamless blend mask ── */
+.hero-fade-container {
+  position: relative;
+  border-bottom: none;
+  box-shadow: none;
+}
+
+.hero-fade-container::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 150px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, hsl(var(--background)));
+  z-index: 9;
+}
+
 /* ── Form floating labels ── */
 .form-field {
   position: relative;
@@ -171,11 +261,11 @@ body {
 .form-field select {
   background: transparent;
   border: none;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  color: #fff;
+  border-bottom: 2px solid hsl(var(--border));
+  color: hsl(var(--text-primary));
   padding: 1rem 0 0.75rem 0;
   width: 100%;
-  font-family: var(--font-nunito);
+  font-family: var(--font-inter);
   font-size: 1rem;
   transition: border-color 0.3s ease;
   outline: none;
@@ -184,14 +274,14 @@ body {
 .form-field input:focus,
 .form-field textarea:focus,
 .form-field select:focus {
-  border-bottom-color: #F5C842;
+  border-bottom-color: hsl(var(--accent));
 }
 
 .form-field label {
   position: absolute;
   left: 0;
   top: 1rem;
-  color: rgba(255, 255, 255, 0.4);
+  color: hsl(var(--text-muted));
   font-size: 0.875rem;
   transition: all 0.3s ease;
   pointer-events: none;
@@ -204,8 +294,9 @@ body {
 .form-field select:focus~label,
 .form-field select:valid~label {
   top: -0.5rem;
-  font-size: 0.7rem;
-  color: #F5C842;
+  font-size: 0.75rem;
+  color: hsl(var(--accent));
+  font-weight: 600;
 }
 
 /* ── Reduced motion ── */
@@ -285,4 +376,144 @@ body {
 
 .animate-float {
   animation: float 4s ease-in-out infinite;
+}
+
+/* ── Glassmorphism card ── */
+.glass-card {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  transition: background 0.45s ease, border-color 0.45s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s ease;
+}
+
+.glass-card:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(200, 146, 10, 0.28);
+  transform: translateY(-4px) scale(1.015);
+  box-shadow: 0 8px 40px rgba(200, 146, 10, 0.06);
+}
+
+/* ── Hero glassmorphism panel ── */
+.hero-glass-panel {
+  background: rgba(5, 11, 20, 0.55);
+  backdrop-filter: blur(24px) saturate(1.2);
+  -webkit-backdrop-filter: blur(24px) saturate(1.2);
+  border: 1px solid rgba(200, 146, 10, 0.08);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.03),
+    0 8px 60px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+/* ── Primary button with liquid gradient hover ── */
+.btn-primary {
+  background: linear-gradient(135deg, #F5C842 0%, #C8920A 50%, #F5C842 100%);
+  background-size: 200% 200%;
+  background-position: left center;
+  transition: background-position 0.5s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+}
+
+.btn-primary:hover {
+  background-position: right center;
+  transform: scale(1.03);
+  box-shadow: 0 4px 24px rgba(200, 146, 10, 0.25);
+}
+
+/* ── Capability corridor hairline transitions ── */
+/* Act I → II: amber dissolving into sapphire */
+.capability-hairline-1 {
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(160,107,8,0.10) 15%,
+    rgba(100,100,100,0.06) 50%,
+    rgba(29,93,191,0.10) 85%,
+    transparent 100%
+  );
+}
+
+:is(.dark) .capability-hairline-1 {
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(200,146,10,0.14) 15%,
+    rgba(130,138,128,0.12) 50%,
+    rgba(59,130,246,0.14) 85%,
+    transparent 100%
+  );
+}
+
+/* Act II → III: sapphire dissolving into emerald */
+.capability-hairline-2 {
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(29,93,191,0.08) 15%,
+    rgba(20,130,100,0.06) 50%,
+    rgba(6,120,80,0.10) 85%,
+    transparent 100%
+  );
+}
+
+:is(.dark) .capability-hairline-2 {
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(59,130,246,0.10) 15%,
+    rgba(35,158,188,0.10) 50%,
+    rgba(16,185,129,0.14) 85%,
+    transparent 100%
+  );
+}
+
+/* ── About → KPI hairline — amber only, both sides of the proof beat ── */
+.about-to-kpi-hairline {
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(160,107,8,0.08) 20%,
+    rgba(200,146,10,0.22) 50%,
+    rgba(160,107,8,0.08) 80%,
+    transparent 100%
+  );
+}
+
+:is(.dark) .about-to-kpi-hairline {
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(200,146,10,0.10) 20%,
+    rgba(200,146,10,0.28) 50%,
+    rgba(200,146,10,0.10) 80%,
+    transparent 100%
+  );
+}
+
+/* ── KPI pulse ring — concentric amber ring behind each stat ── */
+@keyframes kpi-pulse {
+  0%   { transform: scale(1);   opacity: 0.18; }
+  50%  { transform: scale(1.45); opacity: 0.04; }
+  100% { transform: scale(1);   opacity: 0.18; }
+}
+
+.kpi-pulse-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  animation: kpi-pulse 3.5s ease-in-out infinite;
+  animation-delay: var(--pulse-delay, 0s);
+  pointer-events: none;
+}
+
+/* ── About section amber dot pulse ── */
+@keyframes amber-dot-pulse {
+  0%,
+  100% { opacity: 0.40; }
+  50%  { opacity: 1.00; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kpi-pulse-ring,
+  .amber-dot-pulse {
+    animation: none !important;
+  }
 }
