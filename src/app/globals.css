@@ -87,6 +87,15 @@ body {
   overflow-x: hidden;
 }
 
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 /* ── Gradient utilities ── */
 .gradient-dark-navy {
   background: linear-gradient(135deg, hsl(var(--background-card)) 0%, hsl(var(--background-alt)) 100%);

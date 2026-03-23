@@ -33,6 +33,35 @@ const PILLAR_RGB = [
   [16,  185, 129] as const,  // engineering
 ]
 
+const PILLAR_NAMES = ['advisory', 'intelligence', 'engineering'] as const
+
+const PILLAR_FIELD_SPOTS = [
+  [0.26, 0.46],
+  [0.57, 0.74],
+  [0.82, 0.48],
+] as const
+
+const FIELD_PATHS = [
+  [
+    [0.86, 0.22],
+    [0.64, 0.12],
+    [0.36, 0.22],
+    [0.14, 0.58],
+  ],
+  [
+    [0.22, 0.69],
+    [0.38, 0.77],
+    [0.58, 0.74],
+    [0.79, 0.58],
+  ],
+  [
+    [0.78, 0.26],
+    [0.86, 0.38],
+    [0.88, 0.50],
+    [0.84, 0.70],
+  ],
+] as const
+
 // ─── Node definitions: [normX, normY, pillar, weight] ───────────────────────
 // Galaxy arc: advisory spine top-right → bottom-left, then intelligence/engineering bottom → right
 const NODE_DEFS = [
@@ -88,9 +117,10 @@ interface OutcomesCanvasProps {
   className?: string
   /** Set true by parent when section is in the viewport — triggers materialise */
   active?: boolean
+  isDark?: boolean
 }
 
-export default function OutcomesCanvas({ className = '', active = false }: OutcomesCanvasProps) {
+export default function OutcomesCanvas({ className = '', active = false, isDark = true }: OutcomesCanvasProps) {
   const canvasRef  = useRef<HTMLCanvasElement>(null)
   // Bridge React prop world → rAF closure world without re-running the heavy useEffect
   const activeRef  = useRef(active)
@@ -105,17 +135,11 @@ export default function OutcomesCanvas({ className = '', active = false }: Outco
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const isMobile       = window.innerWidth < 768
 
-    // ── Theme observation ────────────────────────────────────────────────────
-    let isDark = document.documentElement.classList.contains('dark')
-    const themeObs = new MutationObserver(() => {
-      isDark = document.documentElement.classList.contains('dark')
-    })
-    themeObs.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
-
     // ── State ────────────────────────────────────────────────────────────────
     let width = 0, height = 0
     let animId = 0
     let lastTimestamp = 0
+    let lastPassiveDraw = 0
     let elapsedMs = 0
     let materialiseProgress = 0
     const MATERIALISE_SPEED  = 1 / 1700  // full reveal in ~1.7s
@@ -184,7 +208,7 @@ export default function OutcomesCanvas({ className = '', active = false }: Outco
       // Read active case + active pillar filter
       const activeCase = getOutcomesActive()
       const filter = getOutcomesFilter()
-      const PILLAR_NAMES = ['advisory', 'intelligence', 'engineering'] as const
+      const selectedPillarIndex = filter === 'all' ? -1 : PILLAR_NAMES.indexOf(filter as typeof PILLAR_NAMES[number])
 
       // Update per-node alpha — factor in both card activation AND pillar filter
       nodes.forEach((node, i) => {
@@ -202,8 +226,8 @@ export default function OutcomesCanvas({ className = '', active = false }: Outco
         node.y = node.baseY + Math.cos(t * node.driftFreqY + node.phase * 1.3) * 0.0055
       })
 
-      // ── 1. Background — always dark cosmos ──────────────────────────────────
-      ctx.fillStyle = '#000208'
+      // ── 1. Background ───────────────────────────────────────────────────────
+      ctx.fillStyle = isDark ? '#000208' : '#f5efe5'
       ctx.fillRect(0, 0, width, height)
 
       // ── 2. Primary nebula — rich indigo deep-field ──────────────────────────
@@ -211,10 +235,10 @@ export default function OutcomesCanvas({ className = '', active = false }: Outco
       const ny = height * (0.50 + Math.cos(t * 0.000100 + nebulaPhase * 1.2) * 0.07)
       const nr = Math.max(width, height) * 0.75
       const nebGrad = ctx.createRadialGradient(nx, ny, 0, nx, ny, nr)
-      nebGrad.addColorStop(0,    'rgba(18,28,72,0.72)')
-      nebGrad.addColorStop(0.30, 'rgba(10,18,52,0.42)')
-      nebGrad.addColorStop(0.65, 'rgba(4,8,28,0.18)')
-      nebGrad.addColorStop(1,    'rgba(0,2,8,0)')
+      nebGrad.addColorStop(0,    isDark ? 'rgba(18,28,72,0.72)' : 'rgba(210,224,255,0.44)')
+      nebGrad.addColorStop(0.30, isDark ? 'rgba(10,18,52,0.42)' : 'rgba(235,240,255,0.30)')
+      nebGrad.addColorStop(0.65, isDark ? 'rgba(4,8,28,0.18)' : 'rgba(245,239,229,0.08)')
+      nebGrad.addColorStop(1,    isDark ? 'rgba(0,2,8,0)' : 'rgba(245,239,229,0)')
       ctx.fillStyle = nebGrad
       ctx.fillRect(0, 0, width, height)
 
@@ -223,29 +247,69 @@ export default function OutcomesCanvas({ className = '', active = false }: Outco
       const ny2 = height * (0.35 + Math.cos(t * 0.000080 + nebulaPhase * 0.9) * 0.07)
       const nr2 = Math.max(width, height) * 0.45
       const nebGrad2 = ctx.createRadialGradient(nx2, ny2, 0, nx2, ny2, nr2)
-      if (isDark) {
-        nebGrad2.addColorStop(0,   'rgba(200,146,10,0.05)')
-        nebGrad2.addColorStop(0.5, 'rgba(59,130,246,0.025)')
-        nebGrad2.addColorStop(1,   'rgba(0,0,0,0)')
-      } else {
-        nebGrad2.addColorStop(0,   'rgba(200,146,10,0.04)')
-        nebGrad2.addColorStop(1,   'rgba(255,255,255,0)')
-      }
+      nebGrad2.addColorStop(0,   isDark ? 'rgba(200,146,10,0.05)' : 'rgba(200,146,10,0.08)')
+      nebGrad2.addColorStop(0.45,isDark ? 'rgba(59,130,246,0.028)' : 'rgba(59,130,246,0.05)')
+      nebGrad2.addColorStop(1,   'rgba(0,0,0,0)')
       ctx.fillStyle = nebGrad2
       ctx.fillRect(0, 0, width, height)
 
+      // ── 2b. Pillar field blooms — make taxonomy legible even at idle ──────
+      PILLAR_FIELD_SPOTS.forEach(([sx, sy], pillarIndex) => {
+        const [r, g, b] = PILLAR_RGB[pillarIndex]
+        const isSelected = selectedPillarIndex === -1 || selectedPillarIndex === pillarIndex
+        const strength = isSelected ? 1 : 0.22
+        const pulse = 0.92 + 0.08 * Math.sin(t * 0.00045 + pillarIndex * 1.7)
+        const grad = ctx.createRadialGradient(
+          sx * width,
+          sy * height,
+          0,
+          sx * width,
+          sy * height,
+          Math.max(width, height) * 0.24
+        )
+        grad.addColorStop(0, `rgba(${r},${g},${b},${(0.10 * strength * pulse).toFixed(3)})`)
+        grad.addColorStop(0.5, `rgba(${r},${g},${b},${(0.03 * strength).toFixed(3)})`)
+        grad.addColorStop(1, 'rgba(0,0,0,0)')
+        ctx.fillStyle = grad
+        ctx.fillRect(0, 0, width, height)
+      })
+
       // ── 3. Starfield ────────────────────────────────────────────────────────
-      if (isDark) {
-        stars.forEach((star) => {
-          const twinkle = 0.6 + 0.4 * Math.sin(t * star.twinkleFreq + star.twinklePhase)
-          const alpha   = star.baseAlpha * twinkle * Math.min(1, materialiseProgress * 2)
-          if (alpha < 0.01) return
-          ctx.fillStyle = `rgba(200,212,255,${alpha.toFixed(3)})`
-          ctx.beginPath()
-          ctx.arc(star.nx * width, star.ny * height, star.radius, 0, TAU)
-          ctx.fill()
-        })
-      }
+      stars.forEach((star) => {
+        const twinkle = 0.6 + 0.4 * Math.sin(t * star.twinkleFreq + star.twinklePhase)
+        const alpha   = star.baseAlpha * twinkle * Math.min(1, materialiseProgress * 2)
+        if (alpha < 0.01) return
+        ctx.fillStyle = isDark
+          ? `rgba(200,212,255,${alpha.toFixed(3)})`
+          : `rgba(104,120,162,${(alpha * 0.8).toFixed(3)})`
+        ctx.beginPath()
+        ctx.arc(star.nx * width, star.ny * height, star.radius, 0, TAU)
+        ctx.fill()
+      })
+
+      // ── 3b. Flow bands — directional proof routes across the constellation ─
+      FIELD_PATHS.forEach((path, index) => {
+        const [r, g, b] = PILLAR_RGB[index]
+        const isSelected = selectedPillarIndex === -1 || selectedPillarIndex === index
+        const strength = isSelected ? 1 : 0.16
+        const alpha = materialiseProgress * 0.18 * strength
+        if (alpha < 0.004) return
+
+        ctx.save()
+        ctx.strokeStyle = `rgba(${r},${g},${b},${alpha.toFixed(3)})`
+        ctx.lineWidth = isSelected ? 1.15 : 0.85
+        ctx.shadowBlur = isSelected ? 18 : 8
+        ctx.shadowColor = `rgba(${r},${g},${b},${(alpha * 0.75).toFixed(3)})`
+        ctx.beginPath()
+        ctx.moveTo(path[0][0] * width, path[0][1] * height)
+        ctx.bezierCurveTo(
+          path[1][0] * width, path[1][1] * height,
+          path[2][0] * width, path[2][1] * height,
+          path[3][0] * width, path[3][1] * height
+        )
+        ctx.stroke()
+        ctx.restore()
+      })
 
       // ── 4. Connection lines ─────────────────────────────────────────────────
       // Connections only fully draw after materialise > 0.78
@@ -366,7 +430,14 @@ export default function OutcomesCanvas({ className = '', active = false }: Outco
 
     // ── Animation loop ────────────────────────────────────────────────────────
     function frame(ts: number) {
-      if (!document.hidden) draw(ts)
+      if (!document.hidden) {
+        if (activeRef.current || materialiseProgress < 1) {
+          draw(ts)
+        } else if (ts - lastPassiveDraw > 320) {
+          lastPassiveDraw = ts
+          draw(ts)
+        }
+      }
       animId = requestAnimationFrame(frame)
     }
 
@@ -384,9 +455,8 @@ export default function OutcomesCanvas({ className = '', active = false }: Outco
     return () => {
       cancelAnimationFrame(animId)
       resizeObs.disconnect()
-      themeObs.disconnect()
     }
-  }, [])
+  }, [isDark])
 
   return (
     <canvas
